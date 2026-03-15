@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Trắc Nghiệm</title>
+    <meta name="description" content="Nền tảng trả lời câu hỏi trắc nghiệm trực tuyến chuyên nghiệp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Identity Services (Để tích hợp thật sau này) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <main class="container">
+        <div class="card">
+            <header class="card-header">
+                <h1>Đánh giá kiến thức BA banking</h1>
+                <p>Vui lòng đăng nhập và hoàn thành các câu hỏi bên dưới.</p>
+            </header>
+
+            <div class="auth-section" id="authSection">
+                <!-- Mô phỏng nút đăng nhập Google -->
+                <button class="google-btn" id="googleLoginBtn" type="button">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" class="google-icon">
+                    <span>Đăng nhập với Google</span>
+                </button>
+                <div id="userInfo" class="user-info hidden">
+                    <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
+                    <div class="user-details">
+                        <span class="user-email" id="userEmail"></span>
+                        <button type="button" id="logoutBtn" class="logout-btn">Đăng xuất</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="quizForm" class="quiz-form hidden">
+                <div class="question-block">
+                    <h3 class="question-title">
+                        <span class="q-num">1</span> 
+                        <span class="q-content">Câu hỏi số 1 sẽ được bạn cập nhật tại đây</span>
+                    </h3>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="A" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án A</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="B">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án B</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="C">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án C</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q1" value="D">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án D</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <h3 class="question-title">
+                        <span class="q-num">2</span> 
+                        <span class="q-content">Câu hỏi số 2 sẽ được bạn cập nhật tại đây</span>
+                    </h3>
+                    <div class="options-group">
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="A" required>
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án A</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="B">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án B</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="C">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án C</span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="q2" value="D">
+                            <span class="custom-radio"></span>
+                            <span class="option-text">Đáp án D</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" id="backBtn" class="back-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Về trước</span>
+                    </button>
+                    <button type="submit" class="submit-btn">
+                        <span>Gửi đáp án</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            
+            <div id="successMessage" class="success-message hidden">
+                <div class="success-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6L9 17L4 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>Gửi Thành Công!</h3>
+                <p>Cảm ơn bạn đã hoàn thành bài kiểm tra. Đáp án đã được ghi nhận.</p>
+                <button type="button" id="resetBtn" class="reset-btn">Làm bài khác</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
