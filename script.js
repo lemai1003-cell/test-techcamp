@@ -32,26 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Danh sách 20 câu hỏi trắc nghiệm Banking
     const quizData = [
-        { id: 1, q: "Ngành ngân hàng chủ yếu cung cấp loại dịch vụ nào?", a: "Dịch vụ tài chính trung gian", b: "Sản xuất công nghiệp", c: "Dịch vụ vận tải", d: "Dịch vụ nông nghiệp" },
-        { id: 2, q: "Chuyển khoản liên ngân hàng là gì?", a: "Chuyển tiền giữa các ngân hàng khác nhau", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt" },
-        { id: 3, q: "Core Banking là hệ thống gì?", a: "Hệ thống quản lý khách hàng", b: "Hệ thống lõi xử lý giao dịch ngân hàng", c: "Hệ thống thanh toán QR", d: "Hệ thống ATM" },
-        { id: 4, q: "KYC dùng để làm gì?", a: "Xác minh danh tính khách hàng", b: "Tính lãi suất", c: "Quản lý thẻ", d: "Tính phí giao dịch" },
-        { id: 5, q: "AML là viết tắt của gì?", a: "Anti Money Laundering", b: "Automatic Money Logic", c: "Account Management Level", d: "Advanced Market Loan" },
-        { id: 6, q: "Current Account là loại tài khoản nào?", a: "Tài khoản thanh toán", b: "Tài khoản tiết kiệm", c: "Tài khoản vay", d: "Tài khoản đầu tư" },
-        { id: 7, q: "Savings Account chủ yếu dùng để làm gì?", a: "Tích lũy tiền và hưởng lãi", b: "Chuyển tiền quốc tế", c: "Quản lý thẻ tín dụng", d: "Đầu tư chứng khoán" },
-        { id: 8, q: "Term Deposit là gì?", a: "Tiền gửi có kỳ hạn", b: "Tiền gửi không kỳ hạn", c: "Khoản vay", d: "Tài khoản thanh toán" },
-        { id: 9, q: "Internal Transfer là gì?", a: "Chuyển tiền giữa hai ngân hàng", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt" },
-        { id: 10, q: "NAPAS dùng để làm gì?", a: "Chuyển tiền nhanh liên ngân hàng", b: "Quản lý CIF", c: "Tính lãi suất", d: "Quản lý khoản vay" },
-        { id: 11, q: "SWIFT chủ yếu dùng cho giao dịch nào?", a: "Chuyển tiền nội bộ", b: "Chuyển tiền quốc tế", c: "Thanh toán QR", d: "Thanh toán hóa đơn" },
-        { id: 12, q: "Nếu rút tiền trước hạn từ tiền gửi có kỳ hạn thì điều gì xảy ra?", a: "Vẫn hưởng lãi ban đầu", b: "Áp dụng lãi suất không kỳ hạn", c: "Không được rút", d: "Lãi tăng" },
-        { id: 13, q: "Điều kiện để chuyển tiền là gì?", a: "Tài khoản active", b: "Có đủ số dư", c: "Không vượt hạn mức", d: "Tất cả" },
-        { id: 14, q: "Clearing là gì?", a: "Chuyển tiền thực tế", b: "Xác nhận nghĩa vụ thanh toán", c: "Hạch toán GL", d: "Xóa giao dịch" },
-        { id: 15, q: "Settlement là gì?", a: "Chuyển tiền thực tế", b: "Kiểm tra AML", c: "Xác thực OTP", d: "Phát hành thẻ" },
-        { id: 16, q: "Available Balance là gì?", a: "Tổng tiền từng nạp", b: "Tiền có thể sử dụng ngay", c: "Tổng tiền trong ngân hàng", d: "Tiền đã rút" },
-        { id: 17, q: "CITAD là hệ thống gì?", a: "Thanh toán quốc tế", b: "Thanh toán bù trừ liên ngân hàng theo phiên", c: "Hệ thống ATM", d: "Hệ thống ví điện tử" },
-        { id: 18, q: "EOD trong ngân hàng là gì?", a: "End Of Deposit", b: "End Of Day", c: "End Of Debit", d: "End Of Data" },
-        { id: 19, q: "Bạn biết những sản phẩm chính của ngân hàng nào?", a: "Chỉ tài khoản thanh toán", b: "Tài khoản, vay, thẻ, bảo hiểm", c: "Chỉ tiền gửi tiết kiệm", d: "Chỉ dịch vụ chuyển tiền" },
-        { id: 20, q: "Internet Banking / Mobile Banking khác nhau như thế nào?", a: "Không có khác biệt", b: "Internet Banking qua web, Mobile Banking qua app", c: "Cùng một dịch vụ", d: "Mobile Banking chỉ cho vay" }
+        { id: 1, q: "Ngành ngân hàng chủ yếu cung cấp loại dịch vụ nào?", a: "Dịch vụ tài chính trung gian", b: "Sản xuất công nghiệp", c: "Dịch vụ vận tải", d: "Dịch vụ nông nghiệp", ans: "A" },
+        { id: 2, q: "Chuyển khoản liên ngân hàng là gì?", a: "Chuyển tiền giữa các ngân hàng khác nhau", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt", ans: "A" },
+        { id: 3, q: "Core Banking là hệ thống gì?", a: "Hệ thống quản lý khách hàng", b: "Hệ thống lõi xử lý giao dịch ngân hàng", c: "Hệ thống thanh toán QR", d: "Hệ thống ATM", ans: "B" },
+        { id: 4, q: "KYC dùng để làm gì?", a: "Xác minh danh tính khách hàng", b: "Tính lãi suất", c: "Quản lý thẻ", d: "Tính phí giao dịch", ans: "A" },
+        { id: 5, q: "AML là viết tắt của gì?", a: "Anti Money Laundering", b: "Automatic Money Logic", c: "Account Management Level", d: "Advanced Market Loan", ans: "A" },
+        { id: 6, q: "Current Account là loại tài khoản nào?", a: "Tài khoản thanh toán", b: "Tài khoản tiết kiệm", c: "Tài khoản vay", d: "Tài khoản đầu tư", ans: "A" },
+        { id: 7, q: "Savings Account chủ yếu dùng để làm gì?", a: "Tích lũy tiền và hưởng lãi", b: "Chuyển tiền quốc tế", c: "Quản lý thẻ tín dụng", d: "Đầu tư chứng khoán", ans: "A" },
+        { id: 8, q: "Term Deposit là gì?", a: "Tiền gửi có kỳ hạn", b: "Tiền gửi không kỳ hạn", c: "Khoản vay", d: "Tài khoản thanh toán", ans: "A" },
+        { id: 9, q: "Internal Transfer là gì?", a: "Chuyển tiền giữa hai ngân hàng", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt", ans: "B" },
+        { id: 10, q: "NAPAS dùng để làm gì?", a: "Chuyển tiền nhanh liên ngân hàng", b: "Quản lý CIF", c: "Tính lãi suất", d: "Quản lý khoản vay", ans: "A" },
+        { id: 11, q: "SWIFT chủ yếu dùng cho giao dịch nào?", a: "Chuyển tiền nội bộ", b: "Chuyển tiền quốc tế", c: "Thanh toán QR", d: "Thanh toán hóa đơn", ans: "B" },
+        { id: 12, q: "Nếu rút tiền trước hạn từ tiền gửi có kỳ hạn thì điều gì xảy ra?", a: "Vẫn hưởng lãi ban đầu", b: "Áp dụng lãi suất không kỳ hạn", c: "Không được rút", d: "Lãi tăng", ans: "B" },
+        { id: 13, q: "Điều kiện để chuyển tiền là gì?", a: "Tài khoản active", b: "Có đủ số dư", c: "Không vượt hạn mức", d: "Tất cả", ans: "D" },
+        { id: 14, q: "Clearing là gì?", a: "Chuyển tiền thực tế", b: "Xác nhận nghĩa vụ thanh toán", c: "Hạch toán GL", d: "Xóa giao dịch", ans: "B" },
+        { id: 15, q: "Settlement là gì?", a: "Chuyển tiền thực tế", b: "Kiểm tra AML", c: "Xác thực OTP", d: "Phát hành thẻ", ans: "A" },
+        { id: 16, q: "Available Balance là gì?", a: "Tổng tiền từng nạp", b: "Tiền có thể sử dụng ngay", c: "Tổng tiền trong ngân hàng", d: "Tiền đã rút", ans: "B" },
+        { id: 17, q: "CITAD là hệ thống gì?", a: "Thanh toán quốc tế", b: "Thanh toán bù trừ liên ngân hàng theo phiên", c: "Hệ thống ATM", d: "Hệ thống ví điện tử", ans: "B" },
+        { id: 18, q: "EOD trong ngân hàng là gì?", a: "End Of Deposit", b: "End Of Day", c: "End Of Debit", d: "End Of Data", ans: "B" },
+        { id: 19, q: "Bạn biết những sản phẩm chính của ngân hàng nào?", a: "Chỉ tài khoản thanh toán", b: "Tài khoản, vay, thẻ, bảo hiểm", c: "Chỉ tiền gửi tiết kiệm", d: "Chỉ dịch vụ chuyển tiền", ans: "B" },
+        { id: 20, q: "Internet Banking / Mobile Banking khác nhau như thế nào?", a: "Không có khác biệt", b: "Internet Banking qua web, Mobile Banking qua app", c: "Cùng một dịch vụ", d: "Mobile Banking chỉ cho vay", ans: "B" }
     ];
 
     // Tạo HTML cho các câu hỏi
@@ -169,14 +169,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Lấy dữ liệu bài làm
         const formData = new FormData(quizForm);
         const answers = {};
+        let correctCount = 0;
         
         quizData.forEach(item => {
-            answers[`question_${item.id}`] = formData.get(`q${item.id}`);
+            const selectedOption = formData.get(`q${item.id}`);
+            answers[`question_${item.id}`] = selectedOption || null;
+            
+            // Đối chiếu đáp án đúng
+            if (selectedOption === item.ans) {
+                correctCount++;
+            }
         });
+
+        // scoreString nay se duoc public ra block try
+        window.scoreString = `${correctCount}/${quizData.length}`;
 
         const submittedData = {
             email: userEmail.textContent,
             answers: answers,
+            score: window.scoreString,  // Ghi nhận điểm lên Database
             timestamp: new Date().toISOString()
         };
 
@@ -203,6 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 authSection.classList.add('hidden');
                 quizForm.classList.add('hidden');
                 cardHeader.classList.add('hidden');
+
+                // Cập nhật điểm số lên màn hình
+                const scoreDisplay = document.getElementById('scoreDisplay');
+                if (scoreDisplay) {
+                    scoreDisplay.innerHTML = `Bạn đã trả lời đúng <strong>${window.scoreString}</strong> câu hỏi.`;
+                }
+
                 successMessage.classList.remove('hidden');
                 
                 // Trả lại trạng thái cho nút
