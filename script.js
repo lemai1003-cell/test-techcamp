@@ -10,7 +10,7 @@ const firebaseConfig = {
   messagingSenderId: "780762284438",
   appId: "1:780762284438:web:9714fc25c9cdec51295db7",
   measurementId: "G-XGKW71LSZF",
-  databaseURL: "https://test-techcamp-default-rtdb.asia-southeast1.firebasedatabase.app" // Bổ sung URL mặc định để tránh lỗi Database
+  databaseURL: "https://test-techcamp-default-rtdb.firebaseio.com" // Sửa lại URL mặc định của Database (thường là US)
 };
 
 const app = initializeApp(firebaseConfig);
@@ -179,26 +179,44 @@ document.addEventListener('DOMContentLoaded', () => {
             timestamp: new Date().toISOString()
         };
 
+        // Bổ sung hiệu ứng nút đang xử lý để user biết đã bấm
+        const submitBtn = quizForm.querySelector('.submit-btn');
+        const originalBtnHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span>Đang gửi dữ liệu...</span>';
+        submitBtn.disabled = true;
+
         console.log('Dữ liệu chuẩn bị gửi đi:', submittedData);
 
         // Lưu thông tin vào Firebase Realtime Database
         try {
             const dbRef = ref(database, 'quiz_results');
-            push(dbRef, submittedData)
+            
+            // Set timeout 10 giây nếu Firebase k kết nối được
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error("Timeout")), 10000)
+            );
+
+            Promise.race([push(dbRef, submittedData), timeoutPromise])
                 .then(() => {
                     console.log("Đã lưu kết quả thành công vào Firebase!");
                     // Hiển thị thông báo thành công
                     authSection.classList.add('hidden');
                     quizForm.classList.add('hidden');
                     successMessage.classList.remove('hidden');
+                    submitBtn.innerHTML = originalBtnHTML;
+                    submitBtn.disabled = false;
                 })
                 .catch((error) => {
                     console.error("Lỗi khi lưu vào Firebase:", error);
-                    alert("Có lỗi xảy ra khi nộp bài. Vui lòng thử lại!");
+                    alert("Có lỗi xảy ra kết nối với CSDL mạng. Xin hãy kiểm tra lại cấu hình Database (có thể bạn chưa tạo Realtime Database hoặc link lỗi).");
+                    submitBtn.innerHTML = originalBtnHTML;
+                    submitBtn.disabled = false;
                 });
         } catch (err) {
             console.error(err);
-            alert("Lỗi kết nối máy chủ. Hãy dùng Vercel link HTTPS!");
+            alert("Lỗi kết nối máy chủ cục bộ!");
+            submitBtn.innerHTML = originalBtnHTML;
+            submitBtn.disabled = false;
         }
 
     });
