@@ -10,7 +10,7 @@ const firebaseConfig = {
   messagingSenderId: "780762284438",
   appId: "1:780762284438:web:9714fc25c9cdec51295db7",
   measurementId: "G-XGKW71LSZF",
-  databaseURL: "https://test-techcamp-default-rtdb.firebaseio.com" // Sửa lại URL mặc định của Database (thường là US)
+  databaseURL: "https://test-techcamp-default-rtdb.asia-southeast1.firebasedatabase.app" // Sửa lại theo location Singapore
 };
 
 const app = initializeApp(firebaseConfig);
