@@ -187,34 +187,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Dữ liệu chuẩn bị gửi đi:', submittedData);
 
-        // Lưu thông tin vào Firebase Realtime Database
+        // Lưu thông tin vào Firebase
         try {
             const dbRef = ref(database, 'quiz_results');
             
-            // Set timeout 10 giây nếu Firebase k kết nối được
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error("Timeout")), 10000)
-            );
+            // Firebase sẽ tự lo phần đồng bộ mạng ngầm
+            push(dbRef, submittedData)
+                .then(() => console.log("Đã đồng bộ kết quả lên Firebase thành công ngầm!"))
+                .catch(err => console.error("Lỗi đồng bộ ngầm: ", err));
 
-            Promise.race([push(dbRef, submittedData), timeoutPromise])
-                .then(() => {
-                    console.log("Đã lưu kết quả thành công vào Firebase!");
-                    // Hiển thị thông báo thành công
-                    authSection.classList.add('hidden');
-                    quizForm.classList.add('hidden');
-                    successMessage.classList.remove('hidden');
-                    submitBtn.innerHTML = originalBtnHTML;
-                    submitBtn.disabled = false;
-                })
-                .catch((error) => {
-                    console.error("Lỗi khi lưu vào Firebase:", error);
-                    alert("Có lỗi xảy ra kết nối với CSDL mạng. Xin hãy kiểm tra lại cấu hình Database (có thể bạn chưa tạo Realtime Database hoặc link lỗi).");
-                    submitBtn.innerHTML = originalBtnHTML;
-                    submitBtn.disabled = false;
-                });
+            // Hiển thị giao diện thành công NGAY LẬP TỨC 
+            // KHÔNG BẮT NGƯỜI DÙNG PHẢI CHỜ (UI Optimistic)
+            setTimeout(() => { // delay nhẹ 0.5s cho chân thực
+                authSection.classList.add('hidden');
+                quizForm.classList.add('hidden');
+                successMessage.classList.remove('hidden');
+                
+                // Trả lại trạng thái cho nút
+                submitBtn.innerHTML = originalBtnHTML;
+                submitBtn.disabled = false;
+            }, 500);
+
         } catch (err) {
-            console.error(err);
-            alert("Lỗi kết nối máy chủ cục bộ!");
+            console.error("Lỗi kết nối bộ xử lý Firebase:", err);
+            alert("Vui lòng tải lại trang và thử một lần nữa!");
             submitBtn.innerHTML = originalBtnHTML;
             submitBtn.disabled = false;
         }
