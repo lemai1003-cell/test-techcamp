@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // KHỞI TẠO NÚT GOOGLE (Cần thay thế YOUR_CLIENT_ID_HERE bằng ID thật)
-    const GOOGLE_CLIENT_ID = "YOUR_CLIENT_ID_HERE";
+    const GOOGLE_CLIENT_ID = "336018277787-0prgo2k750aft6678cdeioqgptic9kq3.apps.googleusercontent.com";
     
     // Đợi thư viện Google load xong
     setTimeout(() => {
