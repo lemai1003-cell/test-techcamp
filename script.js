@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </h3>
                     <div class="options-group">
                         <label class="option-label">
-                            <input type="radio" name="q${item.id}" value="A" required>
+                            <input type="radio" name="q${item.id}" value="A">
                             <span class="custom-radio"></span>
                             <span class="option-text">${item.a}</span>
                         </label>
