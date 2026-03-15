@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.getElementById('resetBtn');
     const backBtn = document.getElementById('backBtn');
     const questionsContainer = document.getElementById('questionsContainer');
+    const cardHeader = document.getElementById('cardHeader');
 
     // Danh sách 20 câu hỏi trắc nghiệm Banking
     const quizData = [
@@ -201,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { // delay nhẹ 0.5s cho chân thực
                 authSection.classList.add('hidden');
                 quizForm.classList.add('hidden');
+                cardHeader.classList.add('hidden');
                 successMessage.classList.remove('hidden');
                 
                 // Trả lại trạng thái cho nút
@@ -220,8 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // BUTTON LÀM LẠI BÀI CHO QUÁ TRÌNH TEST DEMO
     resetBtn.addEventListener('click', () => {
         successMessage.classList.add('hidden');
-        authSection.classList.remove('hidden');
-        quizForm.classList.remove('hidden');
+        cardHeader.classList.remove('hidden');
+        if (!window.currentUser) {
+            authSection.classList.remove('hidden');
+        } else {
+            quizForm.classList.remove('hidden');
+        }
         quizForm.reset();
     });
 });
