@@ -1,3 +1,21 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+// Khởi tạo Firebase từ Config trong hình
+const firebaseConfig = {
+  apiKey: "AIzaSyBjv43edl5DwCqu78gFDW-vXjkVPWwWFQ", 
+  authDomain: "test-techcamp.firebaseapp.com",
+  projectId: "test-techcamp",
+  storageBucket: "test-techcamp.firebasestorage.app",
+  messagingSenderId: "780762284438",
+  appId: "1:780762284438:web:9714fc25c9cdec51295db7",
+  measurementId: "G-XGKW71LSZF",
+  databaseURL: "https://test-techcamp-default-rtdb.asia-southeast1.firebasedatabase.app" // Bổ sung URL mặc định để tránh lỗi Database
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 document.addEventListener('DOMContentLoaded', () => {
     const googleButtonContainer = document.getElementById('googleButtonContainer');
     const userInfo = document.getElementById('userInfo');
@@ -163,12 +181,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Dữ liệu chuẩn bị gửi đi:', submittedData);
 
-        // TODO: Ở đây bạn sẽ dùng fetch() POST dữ liệu lên server hoặc Google Apps Script
-        
-        // Hiển thị thông báo thành công
-        authSection.classList.add('hidden');
-        quizForm.classList.add('hidden');
-        successMessage.classList.remove('hidden');
+        // Lưu thông tin vào Firebase Realtime Database
+        try {
+            const dbRef = ref(database, 'quiz_results');
+            push(dbRef, submittedData)
+                .then(() => {
+                    console.log("Đã lưu kết quả thành công vào Firebase!");
+                    // Hiển thị thông báo thành công
+                    authSection.classList.add('hidden');
+                    quizForm.classList.add('hidden');
+                    successMessage.classList.remove('hidden');
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi lưu vào Firebase:", error);
+                    alert("Có lỗi xảy ra khi nộp bài. Vui lòng thử lại!");
+                });
+        } catch (err) {
+            console.error(err);
+            alert("Lỗi kết nối máy chủ. Hãy dùng Vercel link HTTPS!");
+        }
+
     });
 
     // BUTTON LÀM LẠI BÀI CHO QUÁ TRÌNH TEST DEMO
