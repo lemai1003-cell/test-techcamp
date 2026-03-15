@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const googleLoginBtn = document.getElementById('googleLoginBtn');
+    const googleButtonContainer = document.getElementById('googleButtonContainer');
     const userInfo = document.getElementById('userInfo');
     const userAvatar = document.getElementById('userAvatar');
     const userEmail = document.getElementById('userEmail');
@@ -76,41 +76,63 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gọi hàm render để hiển thị 20 câu hỏi ra màn hình
     renderQuestions();
 
-    // MÔ PHỎNG ĐĂNG NHẬP GOOGLE
-    // Ghi chú cho dự án thật: Hãy tích hợp Google Identity Services (GSI) 
-    // bằng thư viện google tài liệu: https://developers.google.com/identity/gsi/web/guides/overview
-    googleLoginBtn.addEventListener('click', () => {
-        // Dữ liệu mô phỏng
-        const mockUser = {
-            email: 'ungvien.gioi@gmail.com',
-            // Sử dụng một avatar placeholder ngẫu nhiên đẹp mắt
-            photoUrl: 'https://ui-avatars.com/api/?name=User&background=4f46e5&color=fff&size=128&rounded=true'
-        };
+    // HÀM GIẢI MÃ TOKEN GOOGLE
+    function decodeJwtResponse(token) {
+        let base64Url = token.split('.')[1];
+        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    }
+
+    // XỬ LÝ KHI ĐĂNG NHẬP GOOGLE THÀNH CÔNG
+    window.handleGoogleLogin = (response) => {
+        const payload = decodeJwtResponse(response.credential);
+        console.log("Đăng nhập thành công:", payload.email);
 
         // Cập nhật giao diện
-        googleLoginBtn.classList.add('hidden');
+        googleButtonContainer.classList.add('hidden');
         userInfo.classList.remove('hidden');
         
-        userAvatar.src = mockUser.photoUrl;
-        userEmail.textContent = mockUser.email;
+        userAvatar.src = payload.picture;
+        userEmail.textContent = payload.email;
 
         // Hiển thị form bài test
         quizForm.classList.remove('hidden');
-    });
+    };
+
+    // KHỞI TẠO NÚT GOOGLE (Cần thay thế YOUR_CLIENT_ID_HERE bằng ID thật)
+    const GOOGLE_CLIENT_ID = "YOUR_CLIENT_ID_HERE";
+    
+    // Đợi thư viện Google load xong
+    setTimeout(() => {
+        if (window.google) {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleGoogleLogin
+            });
+            google.accounts.id.renderButton(
+                googleButtonContainer,
+                { theme: "outline", size: "large", shape: "pill", width: "250" }
+            );
+        }
+    }, 500); // Thêm delay nhỏ để chắc chắn thư viện Google đã load 
 
     // XỬ LÝ ĐĂNG XUẤT
     logoutBtn.addEventListener('click', () => {
         userInfo.classList.add('hidden');
-        googleLoginBtn.classList.remove('hidden');
+        googleButtonContainer.classList.remove('hidden');
         quizForm.classList.add('hidden');
         successMessage.classList.add('hidden');
         quizForm.reset();
+        if (window.google) google.accounts.id.disableAutoSelect(); // Đăng xuất khỏi hệ thống Google
     });
 
     // XỬ LÝ NÚT VỀ TRƯỚC (QUAY LẠI MÀN HÌNH CHỌN EMAIL)
     backBtn.addEventListener('click', () => {
         userInfo.classList.add('hidden');
-        googleLoginBtn.classList.remove('hidden');
+        googleButtonContainer.classList.remove('hidden');
         quizForm.classList.add('hidden');
         quizForm.reset();
     });
