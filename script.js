@@ -41,17 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 7, q: "Savings Account chủ yếu dùng để làm gì?", a: "Tích lũy tiền và hưởng lãi", b: "Chuyển tiền quốc tế", c: "Quản lý thẻ tín dụng", d: "Đầu tư chứng khoán", ans: "A" },
         { id: 8, q: "User Story thường có format nào?", a: "As a [user], I want [feature], so that [benefit]", b: "Input – Process – Output", c: "If – Then", d: "Action – Result", ans: "A" },
         { id: 9, q: "Internal Transfer là gì?", a: "Chuyển tiền giữa hai ngân hàng", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt", ans: "B" },
-        { id: 10, q: "NAPAS dùng để làm gì?", a: "Chuyển tiền nhanh liên ngân hàng", b: "Quản lý CIF", c: "Tính lãi suất", d: "Quản lý khoản vay", ans: "A" },
-        { id: 11, q: "Stakeholder là ai?", a: "Người viết code", b: "Người liên quan đến dự án", c: "Người test", d: "Người deploy", ans: "B" },
+        { id: 10, q: "Chức năng chính của hệ thống chuyển mạch tài chính và bù trừ điện tử NAPAS?", a: "Chuyển tiền nhanh liên ngân hàng", b: "Quản lý CIF", c: "Tính lãi suất", d: "Quản lý khoản vay", ans: "A" },
+        { id: 11, q: "Người hoặc tổ chức có ảnh hưởng hoặc bị ảnh hưởng bởi dự án?", a: "Người viết code", b: "Người liên quan đến dự án", c: "Người test", d: "Người deploy", ans: "B" },
         { id: 12, q: "Nếu rút tiền trước hạn từ tiền gửi có kỳ hạn thì điều gì xảy ra?", a: "Vẫn hưởng lãi ban đầu", b: "Áp dụng lãi suất không kỳ hạn", c: "Không được rút", d: "Lãi tăng", ans: "B" },
         { id: 13, q: "Điều kiện để chuyển tiền là gì?", a: "Tài khoản active", b: "Có đủ số dư", c: "Không vượt hạn mức", d: "Tất cả", ans: "D" },
         { id: 14, q: "Requirement document là gì?", a: "Tài liệu mô tả yêu cầu chi tiết của dự án", b: "Tài liệu lập trình", c: "Tài liệu test", d: "Tài liệu triển khai", ans: "A" },
         { id: 15, q: "Settlement trong ngân hàng là gì?", a: "Chuyển tiền thực tế", b: "Kiểm tra AML", c: "Xác thực OTP", d: "Phát hành thẻ", ans: "A" },
         { id: 16, q: "Available Balance trong ngân hàng là gì?", a: "Tổng tiền từng nạp", b: "Tiền có thể sử dụng ngay", c: "Tổng tiền trong ngân hàng", d: "Tiền đã rút", ans: "B" },
-        { id: 17, q: "Scope chính của BA là gì?", a: "Phân tích nghiệp vụ và yêu cầu", b: "Viết code", c: "Server setup", d: "Network", ans: "A" },
+        { id: 17, q: "Vai trò chính của BA trong dự án là gì?", a: "Phân tích nghiệp vụ và đặc tả yêu cầu", b: "Viết code", c: "Server setup", d: "Network", ans: "A" },
         { id: 18, q: "EOD trong ngân hàng là gì?", a: "End Of Deposit", b: "End Of Day", c: "End Of Debit", d: "End Of Data", ans: "B" },
         { id: 19, q: "Deliverable quan trọng của BA là gì?", a: "Requirement document", b: "Source code", c: "Database", d: "Server", ans: "A" },
-        { id: 20, q: "Internet Banking / Mobile Banking khác nhau như thế nào?", a: "Không có khác biệt", b: "Internet Banking qua web, Mobile Banking qua app", c: "Cùng một dịch vụ", d: "Mobile Banking chỉ cho vay", ans: "B" }
+        { id: 20, q: "Internet Banking / Mobile Banking khác nhau như thế nào?", a: "Không có khác biệt", b: "Internet Banking truy cập qua trình duyệt web, Mobile Banking sử dụng ứng dụng trên điện thoại", c: "Cùng một dịch vụ", d: "Mobile Banking chỉ cho vay", ans: "B" }
     ];
 
     // Tạo HTML cho các câu hỏi
