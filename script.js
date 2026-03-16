@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 8, q: "User Story thường có format nào?", a: "As a [user], I want [feature], so that [benefit]", b: "Input – Process – Output", c: "If – Then", d: "Action – Result", ans: "A" },
         { id: 9, q: "Internal Transfer là gì?", a: "Chuyển tiền giữa hai ngân hàng", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt", ans: "B" },
         { id: 10, q: "Chức năng chính của hệ thống chuyển mạch tài chính và bù trừ điện tử NAPAS?", a: "Chuyển tiền nhanh liên ngân hàng", b: "Quản lý CIF", c: "Tính lãi suất", d: "Quản lý khoản vay", ans: "A" },
-        { id: 11, q: "Người hoặc tổ chức có ảnh hưởng hoặc bị ảnh hưởng bởi dự án?", a: "Người viết code", b: "Người liên quan đến dự án", c: "Người test", d: "Người deploy", ans: "B" },
+        { id: 11, q: "Stakeholder là ai?", a: "Người viết code", b: "Người hoặc tổ chức có ảnh hưởng hoặc bị ảnh hưởng bởi dự án", c: "Người test", d: "Người deploy", ans: "B" },
         { id: 12, q: "Nếu rút tiền trước hạn từ tiền gửi có kỳ hạn thì điều gì xảy ra?", a: "Vẫn hưởng lãi ban đầu", b: "Áp dụng lãi suất không kỳ hạn", c: "Không được rút", d: "Lãi tăng", ans: "B" },
         { id: 13, q: "Điều kiện để chuyển tiền là gì?", a: "Tài khoản active", b: "Có đủ số dư", c: "Không vượt hạn mức", d: "Tất cả", ans: "D" },
         { id: 14, q: "Requirement document là gì?", a: "Tài liệu mô tả yêu cầu chi tiết của dự án", b: "Tài liệu lập trình", c: "Tài liệu test", d: "Tài liệu triển khai", ans: "A" },
