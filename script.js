@@ -1,5 +1,40 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { getDatabase, ref, push, get, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+// ===== CẤU HÌNH TELEGRAM =====
+const TELEGRAM_BOT_TOKEN = "8601457526:AAEDpglDCgTX_qBoRDWNddVXK4MR-IS4AwE";
+const TELEGRAM_GROUP_ID = "-5207532142";
+
+// Hàm gửi thông báo Telegram (gọi thẳng, không cần server)
+async function sendTelegramNotification({ email, score, totalQuestions, timestamp }) {
+    try {
+        // Lấy tổng số submit từ Firebase
+        const dbRef = ref(database, 'quiz_results');
+        const snapshot = await get(dbRef);
+        const totalSubmits = snapshot.exists() ? Object.keys(snapshot.val()).length : 1;
+
+        const text = 
+`📝 Có học viên hoàn thành bài test!
+
+👤 Email: ${email}
+📊 Kết quả: ${score}/${totalQuestions}
+⏰ Thời gian: ${new Date(timestamp).toLocaleString('vi-VN')}
+📊 Tổng submit: ${totalSubmits} học viên`;
+
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_GROUP_ID,
+                text: text
+            })
+        });
+
+        console.log("✅ Đã gửi thông báo Telegram!");
+    } catch (err) {
+        console.error("❌ Lỗi gửi Telegram:", err);
+    }
+}
 
 // Khởi tạo Firebase từ Config trong hình
 const firebaseConfig = {
@@ -207,6 +242,14 @@ document.addEventListener('DOMContentLoaded', () => {
             push(dbRef, submittedData)
                 .then(() => console.log("Đã đồng bộ kết quả lên Firebase thành công ngầm!"))
                 .catch(err => console.error("Lỗi đồng bộ ngầm: ", err));
+
+            // Gửi thông báo đến group Telegram (miễn phí, không cần server)
+            sendTelegramNotification({
+                email: userEmail.textContent,
+                score: window.scoreString,
+                timestamp: submittedData.timestamp,
+                totalQuestions: quizData.length
+            });
 
             // Hiển thị giao diện thành công NGAY LẬP TỨC 
             // KHÔNG BẮT NGƯỜI DÙNG PHẢI CHỜ (UI Optimistic)

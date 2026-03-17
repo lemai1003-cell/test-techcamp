@@ -1,0 +1,57 @@
+✅ CẬP NHẬT TELEGRAM HOÀN THÀNH!
+
+🎯 THAY ĐỔI CHÍNH:
+
+Gửi thông báo đến GROUP TELEGRAM
+Thay vì gửi đến Zalo
+
+📊 FORMAT THÔNG BÁO:
+
+📝 Có học viên hoàn thành bài test!
+
+👤 Email: student@example.com
+📊 Kết quả: 18/20
+⏰ Thời gian: 15/01/2024 10:30:00
+📊 Tổng submit: 5 học viên
+
+⚡ 3 BƯỚC CẬP NHẬT:
+
+1. Lấy Group ID:
+   Truy cập: https://api.telegram.org/bot{TOKEN}/getUpdates
+   Tìm: "chat":{"id":-123456789}
+   → Group ID: -123456789
+
+2. Cập nhật .env:
+   TELEGRAM_BOT_TOKEN=8601457526:AAEDpglDCgTX_qBoRDWNddVXK4MR-IS4AwE
+   TELEGRAM_GROUP_ID=-123456789
+
+3. Restart server:
+   npm run dev
+
+✅ KIỂM TRA:
+
+npm run test:zalo
+
+📝 FILE CẬP NHẬT:
+
+✏️ server.js
+✏️ zalo-notification.js
+✏️ script.js
+✏️ .env.example
+✏️ test-zalo.js
+
+🆕 FILE MỚI:
+
+📄 TELEGRAM_SETUP.md
+📄 TELEGRAM_QUICK_START.md
+📄 TELEGRAM_UPDATE_DONE.txt
+
+🚀 CHẠY NGAY:
+
+npm install
+npm run dev
+npm run test:zalo
+
+✨ HOÀN THÀNH!
+
+Bước tiếp theo: Xem TELEGRAM_QUICK_START.md
