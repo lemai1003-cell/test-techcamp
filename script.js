@@ -17,7 +17,7 @@ async function sendTelegramNotification({ email, score, totalQuestions, timestam
 `📝 Có học viên hoàn thành bài test!
 
 📧 Email: ${email}
-📊 Đáp án: ${score}/${totalQuestions}
+📊 Đáp án: ${score}
 👥 Tổng submit: ${totalSubmits}`;
 
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
