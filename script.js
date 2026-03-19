@@ -67,11 +67,11 @@ const quizData = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    const googleBtnContainer = document.getElementById('googleButtonContainer');
+    const googleBtnContainer = document.getElementById('googleBtnContainer');
     const googleCustomBtn = document.getElementById('googleCustomBtn');
     const userInfo = document.getElementById('userInfo');
     const userAvatar = document.getElementById('userAvatar');
-    const userEmail = document.getElementById('userEmail');
+    const userEmail = document.getElementById('googleUserEmail');
     const logoutBtn = document.getElementById('logoutBtn');
     const quizForm = document.getElementById('quizForm');
     const questionsContainer = document.getElementById('questionsContainer');
@@ -104,12 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png";
-        userEmail.textContent = prefillEmail;
-        userEmail.dataset.phone = prefillPhone; 
+        if (userEmail) userEmail.textContent = prefillEmail;
+        if (userEmail) userEmail.dataset.phone = prefillPhone; 
         
-        // Hiển thị ra các ô dữ liệu
-        if (displayEmail) displayEmail.textContent = prefillEmail;
-        if (displayPhone) displayPhone.textContent = prefillPhone;
+        // Hiển thị ra các ô dữ liệu hệt như Web 1
+        if (displayEmail) displayEmail.value = prefillEmail;
+        if (displayPhone) displayPhone.value = prefillPhone;
         
         quizForm.classList.remove('hidden');
     }
@@ -122,10 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = payload.picture;
-        userEmail.textContent = payload.email;
+        if (userEmail) userEmail.textContent = payload.email;
         
-        if (displayEmail) displayEmail.textContent = payload.email;
-        if (displayPhone) displayPhone.textContent = "Chưa nhập SĐT";
+        if (displayEmail) displayEmail.value = payload.email;
+        if (displayPhone) displayPhone.placeholder = "Vui lòng nhập SĐT";
 
         quizForm.classList.remove('hidden');
     };
