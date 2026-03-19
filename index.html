@@ -24,30 +24,28 @@
             </header>
 
             <div class="auth-section" id="authSection">
-                <!-- Nút Google sạch -->
-                <div class="custom-google-wrapper" id="googleCustomBtn">
-                    <div id="googleBtnContainer"></div>
-                    <span class="custom-google-text">Continue with Google</span>
-                </div>
-
-                <!-- 2 Ô hiển thị thông tin với Icon hệt như ảnh mẫu -->
-                <div class="input-display-group">
-                    <div class="input-display-row">
-                        <span class="input-icon-bg">📧</span>
-                        <div id="displayEmail" class="display-text-field">Email của bạn</div>
+                <form class="signup-form" id="dummyForm">
+                    <!-- Google Sign-In -->
+                    <div class="google-autofill-row">
+                        <div class="custom-google-wrapper" id="googleCustomBtn">
+                            <div id="googleBtnContainer"></div>
+                            <span class="custom-google-text">Continue with Google</span>
+                        </div>
+                        <div id="userInfo" class="user-info-badge hidden">
+                            <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
+                            <span id="googleUserEmail" class="google-email-text"></span>
+                            <button type="button" id="logoutBtn" class="google-logout-btn">&#x2715;</button>
+                        </div>
                     </div>
-                    <div class="input-display-row">
-                        <span class="input-icon-bg">📞</span>
-                        <div id="displayPhone" class="display-text-field">Số điện thoại</div>
+                    <!-- Email input (Standardized with Web 1) -->
+                    <div class="form-group">
+                        <input type="email" id="displayEmail" placeholder="📧 Email của bạn" readonly>
                     </div>
-                </div>
-
-                <!-- Badge nhỏ hiện phía trên khi đã login thực sự -->
-                <div id="userInfo" class="user-info-badge hidden">
-                    <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
-                    <span class="user-email" id="userEmail"></span>
-                    <button type="button" id="logoutBtn" class="logout-btn-icon">&#x2715;</button>
-                </div>
+                    <!-- Phone input (Standardized with Web 1) -->
+                    <div class="form-group">
+                        <input type="tel" id="displayPhone" placeholder="📞 Số điện thoại" readonly>
+                    </div>
+                </form>
             </div>
 
             <form id="quizForm" class="quiz-form hidden">
