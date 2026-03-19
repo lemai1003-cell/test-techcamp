@@ -24,21 +24,29 @@
             </header>
 
             <div class="auth-section" id="authSection">
-                <!-- Khu vực chứa nút Đăng nhập Google thật sự -->
+                <!-- Nút Google sạch -->
                 <div class="custom-google-wrapper" id="googleCustomBtn">
-                    <div id="googleButtonContainer"></div>
+                    <div id="googleBtnContainer"></div>
                     <span class="custom-google-text">Continue with Google</span>
                 </div>
-                <div id="userInfo" class="user-info-container hidden">
-                    <div class="user-info-badge">
-                        <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
-                        <span class="user-email" id="userEmail"></span>
-                        <button type="button" id="logoutBtn" class="logout-btn-icon">&#x2715;</button>
+
+                <!-- 2 Ô hiển thị thông tin với Icon hệt như ảnh mẫu -->
+                <div class="input-display-group">
+                    <div class="input-display-row">
+                        <span class="input-icon-bg">📧</span>
+                        <div id="displayEmail" class="display-text-field">Email của bạn</div>
                     </div>
-                    <div class="user-data-fields">
-                        <div id="displayEmail" class="data-display-field"></div>
-                        <div id="displayPhone" class="data-display-field"></div>
+                    <div class="input-display-row">
+                        <span class="input-icon-bg">📞</span>
+                        <div id="displayPhone" class="display-text-field">Số điện thoại</div>
                     </div>
+                </div>
+
+                <!-- Badge nhỏ hiện phía trên khi đã login thực sự -->
+                <div id="userInfo" class="user-info-badge hidden">
+                    <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
+                    <span class="user-email" id="userEmail"></span>
+                    <button type="button" id="logoutBtn" class="logout-btn-icon">&#x2715;</button>
                 </div>
             </div>
 
