@@ -97,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (prefillEmail && prefillPhone) {
         // Tự động vào nếu có params từ Web 1
         if (googleButtonContainer) googleButtonContainer.classList.add('hidden');
-        if (loginStatus) loginStatus.classList.add('hidden');
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png";
@@ -112,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const payload = decodeJwtResponse(response.credential);
         
         if (googleButtonContainer) googleButtonContainer.classList.add('hidden');
-        if (loginStatus) loginStatus.classList.add('hidden');
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = payload.picture;
@@ -126,11 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.google) {
             google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
-                callback: handleGoogleLogin
+                callback: handleGoogleLogin,
+                auto_select: false
             });
             google.accounts.id.renderButton(
                 googleButtonContainer,
-                { theme: "outline", size: "large", shape: "pill", width: "250" }
+                { theme: "outline", size: "large", shape: "pill", width: "250", text: "continue_with" }
             );
         }
     }, 500); 
@@ -138,13 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // XỬ LÝ ĐĂNG XUẤT
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            userInfo.classList.add('hidden');
+            if (userInfo) userInfo.classList.add('hidden');
             if (googleButtonContainer) googleButtonContainer.classList.remove('hidden');
-            if (loginStatus) loginStatus.classList.remove('hidden');
             
             quizForm.classList.add('hidden');
             successMessage.classList.add('hidden');
-            if (window.google) google.accounts.id.disableAutoSelect();
+            
+            if (window.google) {
+                google.accounts.id.disableAutoSelect();
+                google.accounts.id.renderButton(
+                    googleButtonContainer,
+                    { theme: "outline", size: "large", shape: "pill", width: "250", text: "continue_with" }
+                );
+            }
         });
     }
 
