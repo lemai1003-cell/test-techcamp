@@ -165,12 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userInfo) userInfo.classList.add('hidden');
             if (googleCustomBtn) googleCustomBtn.classList.remove('hidden');
             
-            // Xóa sạch thông tin hiển thị (QUAN TRỌNG)
+            // CHỈ xóa sạch email, KHÔNG xóa số điện thoại theo yêu cầu
             if (displayEmail) displayEmail.value = "";
-            if (displayPhone) {
-                displayPhone.value = "";
-                displayPhone.placeholder = "Số điện thoại";
-            }
             if (userEmail) userEmail.textContent = "";
 
             quizForm.classList.add('hidden');
