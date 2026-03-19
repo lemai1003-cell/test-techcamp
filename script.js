@@ -1,8 +1,24 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getDatabase, ref, push, get, query, orderByChild } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+// Import các hàm từ Firebase (với Firebase v9+ modular SDK)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import { getDatabase, ref, push, set, serverTimestamp, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-// ===== CẤU HÌNH TELEGRAM =====
-const TELEGRAM_BOT_TOKEN = "8601457526:AAEDpglDCgTX_qBoRDWNddVXK4MR-IS4AwE";
+// Cấu hình Firebase của bạn
+const firebaseConfig = {
+  apiKey: "AIzaSyDJsvWI-J9pc-JhzheR_C4xQXhCNbWDnFI",
+  authDomain: "project-course-985d2.firebaseapp.com",
+  projectId: "project-course-985d2",
+  storageBucket: "project-course-985d2.firebasestorage.app",
+  messagingSenderId: "332733702113",
+  appId: "1:332733702113:web:fa1503e178361455d83ca0",
+  measurementId: "G-SG3NJ1FHXG"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// Cấu hình Telegram
+const TELEGRAM_BOT_TOKEN = "7292150917:AAEvL-C_1zX6VpGvK6ZfC27q7a75G9-f7i4";
 const TELEGRAM_GROUP_ID = "-5207532142";
 
 // Hàm gửi thông báo Telegram (gọi thẳng, không cần server)
@@ -11,7 +27,7 @@ async function sendTelegramNotification({ email, phone, score, totalQuestions, t
         // Lấy tổng số submit từ Firebase
         const dbRef = ref(database, 'quiz_results');
         const snapshot = await get(dbRef);
-        const totalSubmits = snapshot.exists() ? Object.keys(snapshot.val()).length : 1;
+        const totalSubmits = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
 
         const text = 
 `📝 Có học viên hoàn thành bài test!
@@ -21,35 +37,34 @@ async function sendTelegramNotification({ email, phone, score, totalQuestions, t
 📊 Đáp án: ${score}
 👥 Tổng submit: ${totalSubmits}`;
 
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 chat_id: TELEGRAM_GROUP_ID,
                 text: text
             })
         });
-
-        console.log("✅ Đã gửi thông báo Telegram!");
-    } catch (err) {
-        console.error("❌ Lỗi gửi Telegram:", err);
+        console.log("Đã gửi thông báo Telegram");
+    } catch (error) {
+        console.error("Lỗi khi gửi Telegram:", error);
     }
 }
 
-// Khởi tạo Firebase từ Config trong hình
-const firebaseConfig = {
-  apiKey: "AIzaSyBjv43edl5DwCqu78gFDW-vXjkVPWwWFQ", 
-  authDomain: "test-techcamp.firebaseapp.com",
-  projectId: "test-techcamp",
-  storageBucket: "test-techcamp.firebasestorage.app",
-  messagingSenderId: "780762284438",
-  appId: "1:780762284438:web:9714fc25c9cdec51295db7",
-  measurementId: "G-XGKW71LSZF",
-  databaseURL: "https://test-techcamp-default-rtdb.asia-southeast1.firebasedatabase.app" // Sửa lại theo location Singapore
-};
-
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+// BỘ CÂU HỎI
+const quizData = [
+    { question: "Mục tiêu chính của một Business Analyst trong dự án là gì?", options: ["Lập trình code", "Thiết kế giao diện", "Kết nối yêu cầu kinh doanh với giải pháp kỹ thuật", "Kiểm thử lỗi phần mềm"], correct: 2 },
+    { question: "Khái niệm 'Wholesale Banking' thường ám chỉ đối tượng khách hàng nào?", options: ["Cá nhân nhỏ lẻ", "Các tập đoàn và doanh nghiệp lớn", "Khách hàng ưu tiên", "Sinh viên"], correct: 1 },
+    { question: "Trong quy trình phát triển phần mềm Agile, BA thường đóng vai trò nào?", options: ["Project Manager", "Scrum Master", "Product Owner hoặc hỗ trợ PO", "Lead Developer"], correct: 2 },
+    { question: "Lending là gì trong lĩnh vực ngân hàng?", options: ["Gửi tiết kiệm", "Thanh toán hóa đơn", "Cho vay và cấp tín dụng", "Dịch vụ thẻ"], correct: 2 },
+    { question: "Biểu đồ nào thường được BA dùng để mô tả quy trình nghiệp vụ?", options: ["BPMN hoặc Flowchart", "Pie Chart", "Bar Chart", "Gantt Chart"], correct: 0 },
+    { question: "Hệ thống Core Banking có chức năng gì?", options: ["Quản lý nhân sự", "Quản lý giao dịch tài chính cốt lõi của ngân hàng", "Quản lý email công ty", "Thiết kế website"], correct: 1 },
+    { question: "Đặc điểm của kỹ thuật phỏng vấn (Interview) trong thu thập yêu cầu là gì?", options: ["Thu thập dữ liệu từ hàng ngàn người", "Trao đổi trực tiếp để hiểu sâu về nhu cầu", "Quan sát thói quen người dùng", "Chạy thử phần mềm"], correct: 1 },
+    { question: "Khái niệm 'Backlog' trong dự án là gì?", options: ["Lỗi phần mềm", "Danh sách các yêu cầu cần thực hiện", "Hợp đồng kinh tế", "Tài liệu thiết kế database"], correct: 1 },
+    { question: "Trong ngân hàng, KYC viết tắt của cụm từ nào?", options: ["Keep Your Cache", "Key Yield Concept", "Know Your Customer", "Knowledge Yield Credit"], correct: 2 },
+    { question: "Kỹ năng nào là quan trọng NHẤT đối với một BA?", options: ["Kỹ năng lập trình Java", "Kỹ năng giao tiếp và lắng nghe", "Kỹ năng sửa chữa phần cứng", "Kỹ năng đồ họa"], correct: 1 }
+];
 
 document.addEventListener('DOMContentLoaded', () => {
     const googleButtonContainer = document.getElementById('googleButtonContainer');
@@ -58,129 +73,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const userEmail = document.getElementById('userEmail');
     const logoutBtn = document.getElementById('logoutBtn');
     const quizForm = document.getElementById('quizForm');
-    const successMessage = document.getElementById('successMessage');
-    const authSection = document.getElementById('authSection');
-    const resetBtn = document.getElementById('resetBtn');
-    const backBtn = document.getElementById('backBtn');
     const questionsContainer = document.getElementById('questionsContainer');
-    const cardHeader = document.getElementById('cardHeader');
+    const successMessage = document.getElementById('successMessage');
+    const loginStatus = document.getElementById('loginStatus');
 
-    // Danh sách 20 câu hỏi trắc nghiệm Banking
-    const quizData = [
-        { id: 1, q: "Ngành ngân hàng chủ yếu cung cấp loại dịch vụ nào?", a: "Dịch vụ tài chính trung gian", b: "Sản xuất công nghiệp", c: "Dịch vụ vận tải", d: "Dịch vụ nông nghiệp", ans: "A" },
-        { id: 2, q: "Chuyển khoản liên ngân hàng là gì?", a: "Chuyển tiền giữa các ngân hàng khác nhau", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt", ans: "A" },
-        { id: 3, q: "Core Banking là hệ thống gì?", a: "Hệ thống quản lý khách hàng", b: "Hệ thống lõi xử lý giao dịch ngân hàng", c: "Hệ thống thanh toán QR", d: "Hệ thống ATM", ans: "B" },
-        { id: 4, q: "KYC dùng để làm gì?", a: "Xác minh danh tính khách hàng", b: "Tính lãi suất", c: "Quản lý thẻ", d: "Tính phí giao dịch", ans: "A" },
-        { id: 5, q: "BA làm gì khi business và IT hiểu khác nhau về yêu cầu?", a: "Bỏ qua sự khác biệt", b: "Cầu nối, giải thích để cả hai hiểu nhau", c: "Chọn phía business", d: "Chọn phía IT", ans: "B" },
-        { id: 6, q: "Use Case dùng để làm gì?", a: "Mô tả tương tác giữa user và hệ thống", b: "Tính toán chi phí", c: "Quản lý nhân sự", d: "Lập kế hoạch dự án", ans: "A" },
-        { id: 7, q: "Savings Account chủ yếu dùng để làm gì?", a: "Tích lũy tiền và hưởng lãi", b: "Chuyển tiền quốc tế", c: "Quản lý thẻ tín dụng", d: "Đầu tư chứng khoán", ans: "A" },
-        { id: 8, q: "User Story thường có format nào?", a: "As a [user], I want [feature], so that [benefit]", b: "Input – Process – Output", c: "If – Then", d: "Action – Result", ans: "A" },
-        { id: 9, q: "Internal Transfer là gì?", a: "Chuyển tiền giữa hai ngân hàng", b: "Chuyển tiền trong cùng ngân hàng", c: "Chuyển tiền quốc tế", d: "Chuyển tiền bằng tiền mặt", ans: "B" },
-        { id: 10, q: "Chức năng chính của hệ thống chuyển mạch tài chính và bù trừ điện tử NAPAS?", a: "Chuyển tiền nhanh liên ngân hàng", b: "Quản lý CIF", c: "Tính lãi suất", d: "Quản lý khoản vay", ans: "A" },
-        { id: 11, q: "Stakeholder là ai?", a: "Người viết code", b: "Người hoặc tổ chức có ảnh hưởng hoặc bị ảnh hưởng bởi dự án", c: "Người test", d: "Người deploy", ans: "B" },
-        { id: 12, q: "Nếu rút tiền trước hạn từ tiền gửi có kỳ hạn thì điều gì xảy ra?", a: "Vẫn hưởng lãi ban đầu", b: "Áp dụng lãi suất không kỳ hạn", c: "Không được rút", d: "Lãi tăng", ans: "B" },
-        { id: 13, q: "Điều kiện để chuyển tiền là gì?", a: "Tài khoản active", b: "Có đủ số dư", c: "Không vượt hạn mức", d: "Tất cả", ans: "D" },
-        { id: 14, q: "Requirement document là gì?", a: "Tài liệu mô tả yêu cầu chi tiết của dự án", b: "Tài liệu lập trình", c: "Tài liệu test", d: "Tài liệu triển khai", ans: "A" },
-        { id: 15, q: "Settlement trong ngân hàng là gì?", a: "Chuyển tiền thực tế", b: "Kiểm tra AML", c: "Xác thực OTP", d: "Phát hành thẻ", ans: "A" },
-        { id: 16, q: "Available Balance trong ngân hàng là gì?", a: "Tổng tiền từng nạp", b: "Tiền có thể sử dụng ngay", c: "Tổng tiền trong ngân hàng", d: "Tiền đã rút", ans: "B" },
-        { id: 17, q: "Vai trò chính của BA trong dự án là gì?", a: "Phân tích nghiệp vụ và đặc tả yêu cầu", b: "Viết code", c: "Server setup", d: "Network", ans: "A" },
-        { id: 18, q: "EOD trong ngân hàng là gì?", a: "End Of Deposit", b: "End Of Day", c: "End Of Debit", d: "End Of Data", ans: "B" },
-        { id: 19, q: "Deliverable quan trọng của BA là gì?", a: "Requirement document", b: "Source code", c: "Database", d: "Server", ans: "A" },
-        { id: 20, q: "Internet Banking / Mobile Banking khác nhau như thế nào?", a: "Không có khác biệt", b: "Internet Banking truy cập qua trình duyệt web, Mobile Banking sử dụng ứng dụng trên điện thoại", c: "Cùng một dịch vụ", d: "Mobile Banking chỉ cho vay", ans: "B" }
-    ];
-
-    // Tạo HTML cho các câu hỏi
-    function renderQuestions() {
-        let html = '';
-        quizData.forEach(item => {
-            html += `
-                <div class="question-block">
-                    <h3 class="question-title">
-                        <span class="q-num">${item.id}</span> 
-                        <span class="q-content">${item.q}</span>
-                    </h3>
-                    <div class="options-group">
-                        <label class="option-label">
-                            <input type="radio" name="q${item.id}" value="A">
-                            <span class="custom-radio"></span>
-                            <span class="option-text">${item.a}</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q${item.id}" value="B">
-                            <span class="custom-radio"></span>
-                            <span class="option-text">${item.b}</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q${item.id}" value="C">
-                            <span class="custom-radio"></span>
-                            <span class="option-text">${item.c}</span>
-                        </label>
-                        <label class="option-label">
-                            <input type="radio" name="q${item.id}" value="D">
-                            <span class="custom-radio"></span>
-                            <span class="option-text">${item.d}</span>
-                        </label>
-                    </div>
-                </div>
-            `;
-        });
-        questionsContainer.innerHTML = html;
-    }
-    
-    // Gọi hàm render để hiển thị 20 câu hỏi ra màn hình
-    renderQuestions();
-
-    // HÀM GIẢI MÃ TOKEN GOOGLE
+    // Hàm decode token JWT của Google
     function decodeJwtResponse(token) {
-        let base64Url = token.split('.')[1];
-        let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         return JSON.parse(jsonPayload);
     }
 
-    // XỬ LÝ KHI ĐĂNG NHẬP GOOGLE THÀNH CÔNG
-    window.handleGoogleLogin = (response) => {
-        const payload = decodeJwtResponse(response.credential);
-        console.log("Đăng nhập thành công:", payload.email);
-
-        // Cập nhật giao diện
-        googleButtonContainer.classList.add('hidden');
-        userInfo.classList.remove('hidden');
-        
-        userAvatar.src = payload.picture;
-        userEmail.textContent = payload.email;
-
-        // Hiển thị form bài test
-        quizForm.classList.remove('hidden');
-    };
-
-    // KHỞI TẠO NÚT GOOGLE (Cần thay thế YOUR_CLIENT_ID_HERE bằng ID thật)
-    const GOOGLE_CLIENT_ID = "336018277787-0prgo2k750aft6678cdeioqgptic9kq3.apps.googleusercontent.com";
-    
     // ============================================
-    // KIỂM TRA ĐĂNG NHẬP (TỪ WEB 1 HOẶC GOOGLE)
+    // KIỂM TRA ĐĂNG NHẬP (URL PARAMS HOẶC GOOGLE)
     // ============================================
-    
-    // Check URL Parameters (from Web 1)
     const urlParams = new URLSearchParams(window.location.search);
     const prefillEmail = urlParams.get('at_email');
     const prefillPhone = urlParams.get('at_phone');
 
     if (prefillEmail && prefillPhone) {
-        // Nếu có thông tin từ Web 1 → Tự động đăng nhập
-        googleButtonContainer.classList.add('hidden');
-        userInfo.classList.remove('hidden');
-        userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png"; // Icon Google tạm
-        userEmail.textContent = prefillEmail;
-        userEmail.dataset.phone = prefillPhone; // Lưu SĐT ẩn để submit sau này
+        // Tự động vào nếu có params từ Web 1
+        if (googleButtonContainer) googleButtonContainer.classList.add('hidden');
+        if (loginStatus) loginStatus.classList.add('hidden');
+        if (userInfo) userInfo.classList.remove('hidden');
         
-        // Hiện bài test ngay
+        userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png";
+        userEmail.textContent = prefillEmail;
+        userEmail.dataset.phone = prefillPhone; 
+        
         quizForm.classList.remove('hidden');
     }
 
-    // Đợi thư viện Google load xong
+    // Callback khi đăng nhập Google thành công
+    window.handleGoogleLogin = (response) => {
+        const payload = decodeJwtResponse(response.credential);
+        
+        if (googleButtonContainer) googleButtonContainer.classList.add('hidden');
+        if (loginStatus) loginStatus.classList.add('hidden');
+        if (userInfo) userInfo.classList.remove('hidden');
+        
+        userAvatar.src = payload.picture;
+        userEmail.textContent = payload.email;
+        quizForm.classList.remove('hidden');
+    };
+
+    const GOOGLE_CLIENT_ID = "336018277787-0prgo2k750aft6678cdeioqgptic9kq3.apps.googleusercontent.com";
+    
     setTimeout(() => {
         if (window.google) {
             google.accounts.id.initialize({
@@ -195,122 +136,103 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500); 
 
     // XỬ LÝ ĐĂNG XUẤT
-    logoutBtn.addEventListener('click', () => {
-        userInfo.classList.add('hidden');
-        googleButtonContainer.classList.remove('hidden');
-        quizForm.classList.add('hidden');
-        successMessage.classList.add('hidden');
-        quizForm.reset();
-        if (window.google) google.accounts.id.disableAutoSelect(); // Đăng xuất khỏi hệ thống Google
-    });
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            userInfo.classList.add('hidden');
+            if (googleButtonContainer) googleButtonContainer.classList.remove('hidden');
+            if (loginStatus) loginStatus.classList.remove('hidden');
+            
+            quizForm.classList.add('hidden');
+            successMessage.classList.add('hidden');
+            if (window.google) google.accounts.id.disableAutoSelect();
+        });
+    }
 
-    // XỬ LÝ NÚT VỀ TRƯỚC (QUAY LẠI MÀN HÌNH CHỌN EMAIL)
-    backBtn.addEventListener('click', () => {
-        userInfo.classList.add('hidden');
-        googleButtonContainer.classList.remove('hidden');
-        quizForm.classList.add('hidden');
-        quizForm.reset();
-    });
+    // RENDER CÂU HỎI
+    function renderQuiz() {
+        questionsContainer.innerHTML = '';
+        quizData.forEach((item, index) => {
+            const qBlock = document.createElement('div');
+            qBlock.className = 'question-block';
+            
+            let optionsHtml = '';
+            item.options.forEach((opt, optIdx) => {
+                optionsHtml += `
+                    <label class="option-label">
+                        <input type="radio" name="q${index}" value="${optIdx}" required>
+                        <span class="custom-radio"></span>
+                        <span class="option-text">${opt}</span>
+                    </label>
+                `;
+            });
 
-    // XỬ LÝ GỬI FORM NHẬN ĐÁP ÁN
-    quizForm.addEventListener('submit', (e) => {
+            qBlock.innerHTML = `
+                <div class="question-title">
+                    <span class="q-num">${index + 1}</span>
+                    <span>${item.question}</span>
+                </div>
+                <div class="options-group">
+                    ${optionsHtml}
+                </div>
+            `;
+            questionsContainer.appendChild(qBlock);
+        });
+    }
+
+    renderQuiz();
+
+    // XỬ LÝ NỘP BÀI
+    quizForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Kiểm tra xem đã đăng nhập chưa (đề phòng chỉnh sửa HTML)
-        if (userInfo.classList.contains('hidden')) {
-            alert('Vui lòng đăng nhập Google trước khi gửi đáp án!');
-            return;
-        }
+        const submitBtn = quizForm.querySelector('.submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Đang nộp...';
 
-        // Lấy dữ liệu bài làm
-        const formData = new FormData(quizForm);
-        const answers = {};
-        let correctCount = 0;
-        
-        quizData.forEach(item => {
-            const selectedOption = formData.get(`q${item.id}`);
-            answers[`question_${item.id}`] = selectedOption || null;
-            
-            // Đối chiếu đáp án đúng
-            if (selectedOption === item.ans) {
-                correctCount++;
+        let score = 0;
+        quizData.forEach((item, index) => {
+            const selected = quizForm.querySelector(`input[name="q${index}"]:checked`);
+            if (selected && parseInt(selected.value) === item.correct) {
+                score++;
             }
         });
 
-        // scoreString nay se duoc public ra block try
-        window.scoreString = `${correctCount}/${quizData.length}`;
+        window.scoreString = `${score}/${quizData.length}`;
 
         const submittedData = {
             email: userEmail.textContent,
-            answers: answers,
-            score: window.scoreString,  // Ghi nhận điểm lên Database
-            timestamp: new Date().toISOString()
+            score: window.scoreString,
+            timestamp: serverTimestamp()
         };
 
-        // Bổ sung hiệu ứng nút đang xử lý để user biết đã bấm
-        const submitBtn = quizForm.querySelector('.submit-btn');
-        const originalBtnHTML = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span>Đang gửi dữ liệu...</span>';
-        submitBtn.disabled = true;
-
-        console.log('Dữ liệu chuẩn bị gửi đi:', submittedData);
-
-        // Lưu thông tin vào Firebase
         try {
-            const dbRef = ref(database, 'quiz_results');
-            
-            // Firebase sẽ tự lo phần đồng bộ mạng ngầm
-            push(dbRef, submittedData)
-                .then(() => console.log("Đã đồng bộ kết quả lên Firebase thành công ngầm!"))
-                .catch(err => console.error("Lỗi đồng bộ ngầm: ", err));
+            const resultRef = ref(database, 'quiz_results');
+            const newResultRef = push(resultRef);
+            await set(newResultRef, submittedData);
 
-            // Gửi thông báo đến group Telegram (miễn phí, không cần server)
             sendTelegramNotification({
                 email: userEmail.textContent,
-                phone: userEmail.dataset.phone || 'Chưa rõ', // Lấy SĐT từ dataset nếu có
+                phone: userEmail.dataset.phone || 'Chưa rõ',
                 score: window.scoreString,
                 timestamp: submittedData.timestamp,
                 totalQuestions: quizData.length
             });
 
-            // Hiển thị giao diện thành công NGAY LẬP TỨC 
-            // KHÔNG BẮT NGƯỜI DÙNG PHẢI CHỜ (UI Optimistic)
-            setTimeout(() => { // delay nhẹ 0.5s cho chân thực
-                authSection.classList.add('hidden');
-                quizForm.classList.add('hidden');
-                cardHeader.classList.add('hidden');
+            quizForm.classList.add('hidden');
+            successMessage.classList.remove('hidden');
 
-                // Cập nhật điểm số lên màn hình
-                const scoreDisplay = document.getElementById('scoreDisplay');
-                if (scoreDisplay) {
-                    scoreDisplay.innerHTML = `Bạn đã trả lời đúng <strong>${window.scoreString}</strong> câu hỏi.`;
-                }
-
-                successMessage.classList.remove('hidden');
-                
-                // Trả lại trạng thái cho nút
-                submitBtn.innerHTML = originalBtnHTML;
-                submitBtn.disabled = false;
-            }, 500);
-
-        } catch (err) {
-            console.error("Lỗi kết nối bộ xử lý Firebase:", err);
-            alert("Vui lòng tải lại trang và thử một lần nữa!");
-            submitBtn.innerHTML = originalBtnHTML;
+        } catch (error) {
+            console.error("Lỗi:", error);
+            alert("Có lỗi xảy ra khi nộp bài. Vui lòng thử lại!");
             submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Nộp bài';
         }
-
     });
 
-    // BUTTON LÀM LẠI BÀI CHO QUÁ TRÌNH TEST DEMO
-    resetBtn.addEventListener('click', () => {
-        successMessage.classList.add('hidden');
-        cardHeader.classList.remove('hidden');
-        if (!window.currentUser) {
-            authSection.classList.remove('hidden');
-        } else {
-            quizForm.classList.remove('hidden');
-        }
+    // Reset test
+    window.resetQuiz = () => {
         quizForm.reset();
-    });
+        successMessage.classList.add('hidden');
+        quizForm.classList.remove('hidden');
+    };
 });

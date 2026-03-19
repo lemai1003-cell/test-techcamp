@@ -114,11 +114,22 @@ body {
 /* Auth Section */
 .auth-section {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 32px;
     padding-bottom: 32px;
     border-bottom: 1px solid var(--border-color);
     transition: all 0.3s ease;
+}
+
+.login-status-msg {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.04);
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
 .google-btn {
