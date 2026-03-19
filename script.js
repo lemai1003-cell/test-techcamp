@@ -125,11 +125,20 @@ document.addEventListener('DOMContentLoaded', () => {
             google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleGoogleLogin,
-                auto_select: false
+                auto_select: false,
+                itp_support: true,
+                use_fedcm_for_prompt: true
             });
             google.accounts.id.renderButton(
-                googleButtonContainer,
-                { theme: "outline", size: "large", shape: "pill", width: "250", text: "continue_with" }
+                googleBtnContainer,
+                { 
+                    theme: "outline", 
+                    size: "large", 
+                    shape: "pill", 
+                    width: "250", 
+                    text: "signin_with",
+                    logo_alignment: "left"
+                }
             );
         }
     }, 500); 
@@ -147,7 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 google.accounts.id.disableAutoSelect();
                 google.accounts.id.renderButton(
                     googleButtonContainer,
-                    { theme: "outline", size: "large", shape: "pill", width: "250", text: "continue_with" }
+                    { 
+                        theme: "outline", 
+                        size: "large", 
+                        shape: "pill", 
+                        width: "250", 
+                        text: "signin_with",
+                        logo_alignment: "left"
+                    }
                 );
             }
         });
