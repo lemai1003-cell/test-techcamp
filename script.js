@@ -98,24 +98,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefillEmail = urlParams.get('at_email');
     const prefillPhone = urlParams.get('at_phone');
 
+    // 1. Luôn xóa Email để chờ Google
+    if (displayEmail) displayEmail.value = "";
+
+    // 2. Điền SĐT nếu có trong link
+    if (prefillPhone) {
+        if (displayPhone) displayPhone.value = prefillPhone;
+    }
+
+    // 3. Xử lý UI nếu có đủ tham số (như từ Trang 1 sang)
     if (prefillEmail && prefillPhone) {
-        // Hiện khung user badge nhưng giấu email, chỉ điền SĐT từ link
         if (googleCustomBtn) googleCustomBtn.classList.add('hidden');
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png";
-        
-        // TRỐNG EMAIL (ÉP BUỘC)
-        if (userEmail) userEmail.textContent = "Chờ đăng nhập Google..."; 
-        if (displayEmail) displayEmail.value = ""; 
-        
-        // Chỉ điền SĐT
-        if (displayPhone) displayPhone.value = prefillPhone;
+        if (userEmail) userEmail.textContent = "Vui lòng Đăng nhập Google để xác thực"; 
         
         quizForm.classList.remove('hidden');
-    } else {
-        // Trường hợp truy cập bình thường không có link
-        if (displayEmail) displayEmail.value = "";
     }
 
     // Callback khi đăng nhập Google thành công
