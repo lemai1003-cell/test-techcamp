@@ -6,7 +6,7 @@ const TELEGRAM_BOT_TOKEN = "8601457526:AAEDpglDCgTX_qBoRDWNddVXK4MR-IS4AwE";
 const TELEGRAM_GROUP_ID = "-5207532142";
 
 // Hàm gửi thông báo Telegram (gọi thẳng, không cần server)
-async function sendTelegramNotification({ email, score, totalQuestions, timestamp }) {
+async function sendTelegramNotification({ email, phone, score, totalQuestions, timestamp }) {
     try {
         // Lấy tổng số submit từ Firebase
         const dbRef = ref(database, 'quiz_results');
@@ -17,6 +17,7 @@ async function sendTelegramNotification({ email, score, totalQuestions, timestam
 `📝 Có học viên hoàn thành bài test!
 
 📧 Email: ${email}
+📞 SĐT: ${phone || 'Chưa nhập'}
 📊 Đáp án: ${score}
 👥 Tổng submit: ${totalSubmits}`;
 
@@ -158,6 +159,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // KHỞI TẠO NÚT GOOGLE (Cần thay thế YOUR_CLIENT_ID_HERE bằng ID thật)
     const GOOGLE_CLIENT_ID = "336018277787-0prgo2k750aft6678cdeioqgptic9kq3.apps.googleusercontent.com";
     
+    // ============================================
+    // KIỂM TRA ĐĂNG NHẬP (TỪ WEB 1 HOẶC GOOGLE)
+    // ============================================
+    
+    // Check URL Parameters (from Web 1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillEmail = urlParams.get('at_email');
+    const prefillPhone = urlParams.get('at_phone');
+
+    if (prefillEmail && prefillPhone) {
+        // Nếu có thông tin từ Web 1 → Tự động đăng nhập
+        googleButtonContainer.classList.add('hidden');
+        userInfo.classList.remove('hidden');
+        userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png"; // Icon Google tạm
+        userEmail.textContent = prefillEmail;
+        userEmail.dataset.phone = prefillPhone; // Lưu SĐT ẩn để submit sau này
+        
+        // Hiện bài test ngay
+        quizForm.classList.remove('hidden');
+    }
+
     // Đợi thư viện Google load xong
     setTimeout(() => {
         if (window.google) {
@@ -170,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { theme: "outline", size: "large", shape: "pill", width: "250" }
             );
         }
-    }, 500); // Thêm delay nhỏ để chắc chắn thư viện Google đã load 
+    }, 500); 
 
     // XỬ LÝ ĐĂNG XUẤT
     logoutBtn.addEventListener('click', () => {
@@ -245,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Gửi thông báo đến group Telegram (miễn phí, không cần server)
             sendTelegramNotification({
                 email: userEmail.textContent,
+                phone: userEmail.dataset.phone || 'Chưa rõ', // Lấy SĐT từ dataset nếu có
                 score: window.scoreString,
                 timestamp: submittedData.timestamp,
                 totalQuestions: quizData.length
