@@ -60,14 +60,15 @@ const quizData = [
     { question: "Lending là gì trong lĩnh vực ngân hàng?", options: ["Gửi tiết kiệm", "Thanh toán hóa đơn", "Cho vay và cấp tín dụng", "Dịch vụ thẻ"], correct: 2 },
     { question: "Biểu đồ nào thường được BA dùng để mô tả quy trình nghiệp vụ?", options: ["BPMN hoặc Flowchart", "Pie Chart", "Bar Chart", "Gantt Chart"], correct: 0 },
     { question: "Hệ thống Core Banking có chức năng gì?", options: ["Quản lý nhân sự", "Quản lý giao dịch tài chính cốt lõi của ngân hàng", "Quản lý email công ty", "Thiết kế website"], correct: 1 },
-    { question: "Đặc điểm của kỹ thuật phỏng vấn (Interview) trong thu thập yêu cầu là gì?", options: ["Thu thập dữ liệu từ hàng ngàn người", "Trao đổi trực tiếp để hiểu sâu về nhu cầu", "Quan sát thói quen người dùng", "Chạy thử phần mềm"], correct: 1 },
+    { question: "Đặc điểm của kỹ thuật phỏng vấn (Interview) trong thu thập yêu cầu là gì?", options: ["Thu thập dữ liệu từ hàng ngàn người", "Trao đổi trực tiếp để hiểu sâu về nhu cầu", "Trao đổi trực tiếp để hiểu sâu về nhu cầu", "Chạy thử phần mềm"], correct: 1 },
     { question: "Khái niệm 'Backlog' trong dự án là gì?", options: ["Lỗi phần mềm", "Danh sách các yêu cầu cần thực hiện", "Hợp đồng kinh tế", "Tài liệu thiết kế database"], correct: 1 },
     { question: "Trong ngân hàng, KYC viết tắt của cụm từ nào?", options: ["Keep Your Cache", "Key Yield Concept", "Know Your Customer", "Knowledge Yield Credit"], correct: 2 },
     { question: "Kỹ năng nào là quan trọng NHẤT đối với một BA?", options: ["Kỹ năng lập trình Java", "Kỹ năng giao tiếp và lắng nghe", "Kỹ năng sửa chữa phần cứng", "Kỹ năng đồ họa"], correct: 1 }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-    const googleButtonContainer = document.getElementById('googleButtonContainer');
+    const googleBtnContainer = document.getElementById('googleButtonContainer');
+    const googleCustomBtn = document.getElementById('googleCustomBtn');
     const userInfo = document.getElementById('userInfo');
     const userAvatar = document.getElementById('userAvatar');
     const userEmail = document.getElementById('userEmail');
@@ -75,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizForm = document.getElementById('quizForm');
     const questionsContainer = document.getElementById('questionsContainer');
     const successMessage = document.getElementById('successMessage');
-    const loginStatus = document.getElementById('loginStatus');
 
     // Hàm decode token JWT của Google
     function decodeJwtResponse(token) {
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (prefillEmail && prefillPhone) {
         // Tự động vào nếu có params từ Web 1
-        if (googleButtonContainer) googleButtonContainer.classList.add('hidden');
+        if (googleCustomBtn) googleCustomBtn.classList.add('hidden');
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png";
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.handleGoogleLogin = (response) => {
         const payload = decodeJwtResponse(response.credential);
         
-        if (googleButtonContainer) googleButtonContainer.classList.add('hidden');
+        if (googleCustomBtn) googleCustomBtn.classList.add('hidden');
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = payload.picture;
@@ -120,51 +120,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const GOOGLE_CLIENT_ID = "336018277787-0prgo2k750aft6678cdeioqgptic9kq3.apps.googleusercontent.com";
     
-    setTimeout(() => {
+    const renderIconBtn = () => {
         if (window.google) {
             google.accounts.id.initialize({
                 client_id: GOOGLE_CLIENT_ID,
                 callback: handleGoogleLogin,
                 auto_select: false,
-                itp_support: true,
-                use_fedcm_for_prompt: true
+                itp_support: true
             });
             google.accounts.id.renderButton(
                 googleBtnContainer,
-                { 
-                    theme: "outline", 
-                    size: "large", 
-                    shape: "pill", 
-                    width: "250", 
-                    text: "signin_with",
-                    logo_alignment: "left"
-                }
+                { theme: "outline", size: "large", shape: "circle", type: "icon" }
             );
         }
-    }, 500); 
+    };
+
+    setTimeout(renderIconBtn, 500); 
+
+    // Kích hoạt click cho phần vỏ bọc bên ngoài
+    if (googleCustomBtn) {
+        googleCustomBtn.addEventListener('click', () => {
+            if (window.google) google.accounts.id.prompt();
+        });
+    }
 
     // XỬ LÝ ĐĂNG XUẤT
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             if (userInfo) userInfo.classList.add('hidden');
-            if (googleButtonContainer) googleButtonContainer.classList.remove('hidden');
+            if (googleCustomBtn) googleCustomBtn.classList.remove('hidden');
             
             quizForm.classList.add('hidden');
             successMessage.classList.add('hidden');
             
             if (window.google) {
                 google.accounts.id.disableAutoSelect();
-                google.accounts.id.renderButton(
-                    googleButtonContainer,
-                    { 
-                        theme: "outline", 
-                        size: "large", 
-                        shape: "pill", 
-                        width: "250", 
-                        text: "signin_with",
-                        logo_alignment: "left"
-                    }
-                );
+                renderIconBtn();
             }
         });
     }
