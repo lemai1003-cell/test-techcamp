@@ -76,6 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizForm = document.getElementById('quizForm');
     const questionsContainer = document.getElementById('questionsContainer');
     const successMessage = document.getElementById('successMessage');
+    
+    // Các phần mới hiển thị data
+    const displayEmail = document.getElementById('displayEmail');
+    const displayPhone = document.getElementById('displayPhone');
 
     // Hàm decode token JWT của Google
     function decodeJwtResponse(token) {
@@ -103,6 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
         userEmail.textContent = prefillEmail;
         userEmail.dataset.phone = prefillPhone; 
         
+        // Hiển thị ra các ô dữ liệu
+        if (displayEmail) displayEmail.textContent = prefillEmail;
+        if (displayPhone) displayPhone.textContent = prefillPhone;
+        
         quizForm.classList.remove('hidden');
     }
 
@@ -115,6 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         userAvatar.src = payload.picture;
         userEmail.textContent = payload.email;
+        
+        if (displayEmail) displayEmail.textContent = payload.email;
+        if (displayPhone) displayPhone.textContent = "Chưa nhập SĐT";
+
         quizForm.classList.remove('hidden');
     };
 

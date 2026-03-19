@@ -29,11 +29,15 @@
                     <div id="googleButtonContainer"></div>
                     <span class="custom-google-text">Continue with Google</span>
                 </div>
-                <div id="userInfo" class="user-info hidden">
-                    <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
-                    <div class="user-details">
+                <div id="userInfo" class="user-info-container hidden">
+                    <div class="user-info-badge">
+                        <img src="" alt="Avatar" id="userAvatar" class="user-avatar">
                         <span class="user-email" id="userEmail"></span>
-                        <button type="button" id="logoutBtn" class="logout-btn">Đăng xuất</button>
+                        <button type="button" id="logoutBtn" class="logout-btn-icon">&#x2715;</button>
+                    </div>
+                    <div class="user-data-fields">
+                        <div id="displayEmail" class="data-display-field"></div>
+                        <div id="displayPhone" class="data-display-field"></div>
                     </div>
                 </div>
             </div>
