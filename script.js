@@ -99,21 +99,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const prefillPhone = urlParams.get('at_phone');
 
     if (prefillEmail && prefillPhone) {
-        // Tự động hiện khung user nhưng email để trống chờ Google, chỉ điền SĐT từ link
+        // Hiện khung user badge nhưng giấu email, chỉ điền SĐT từ link
         if (googleCustomBtn) googleCustomBtn.classList.add('hidden');
         if (userInfo) userInfo.classList.remove('hidden');
         
         userAvatar.src = "https://www.gstatic.com/identity/boq/gsi/images/google-logo.png";
         
-        // KHÔNG TỰ ĐIỀN EMAIL TỪ LINK NỮA
-        if (userEmail) userEmail.textContent = "Đang chờ đăng nhập..."; 
-        if (userEmail) userEmail.dataset.phone = prefillPhone; 
-        
-        // Chỉ hiện SĐT ra ô hiển thị
+        // TRỐNG EMAIL (ÉP BUỘC)
+        if (userEmail) userEmail.textContent = "Chờ đăng nhập Google..."; 
         if (displayEmail) displayEmail.value = ""; 
+        
+        // Chỉ điền SĐT
         if (displayPhone) displayPhone.value = prefillPhone;
         
         quizForm.classList.remove('hidden');
+    } else {
+        // Trường hợp truy cập bình thường không có link
+        if (displayEmail) displayEmail.value = "";
     }
 
     // Callback khi đăng nhập Google thành công
@@ -164,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (userInfo) userInfo.classList.add('hidden');
             if (googleCustomBtn) googleCustomBtn.classList.remove('hidden');
             
-            // Xóa sạch thông tin
+            // Xóa sạch thông tin hiển thị (QUAN TRỌNG)
             if (displayEmail) displayEmail.value = "";
             if (displayPhone) {
                 displayPhone.value = "";
