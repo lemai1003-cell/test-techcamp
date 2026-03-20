@@ -4,14 +4,14 @@ import { getDatabase, ref, push, set, serverTimestamp, get } from "https://www.g
 
 // Cấu hình Firebase của bạn
 const firebaseConfig = {
-  apiKey: "AIzaSyDJsvWI-J9pc-JhzheR_C4xQXhCNbWDnFI",
-  authDomain: "project-course-985d2.firebaseapp.com",
-  projectId: "project-course-985d2",
-  storageBucket: "project-course-985d2.firebasestorage.app",
-  messagingSenderId: "332733702113",
-  appId: "1:332733702113:web:fa1503e178361455d83ca0",
-  measurementId: "G-SG3NJ1FHXG",
-  databaseURL: "https://project-course-985d2-default-rtdb.asia-southeast1.firebasedatabase.app"
+  apiKey: "AIzaSyBjv43edl5DwCqu78gFDW-vXjkVPWwWFQ", 
+  authDomain: "test-techcamp.firebaseapp.com",
+  projectId: "test-techcamp",
+  storageBucket: "test-techcamp.firebasestorage.app",
+  messagingSenderId: "780762284438",
+  appId: "1:780762284438:web:9714fc25c9cdec51295db7",
+  measurementId: "G-XGKW71LSZF",
+  databaseURL: "https://test-techcamp-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 // Initialize Firebase
