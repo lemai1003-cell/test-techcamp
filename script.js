@@ -10,7 +10,8 @@ const firebaseConfig = {
   storageBucket: "project-course-985d2.firebasestorage.app",
   messagingSenderId: "332733702113",
   appId: "1:332733702113:web:fa1503e178361455d83ca0",
-  measurementId: "G-SG3NJ1FHXG"
+  measurementId: "G-SG3NJ1FHXG",
+  databaseURL: "https://project-course-985d2-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 // Initialize Firebase
@@ -253,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             sendTelegramNotification({
                 email: userEmail.textContent,
-                phone: userEmail.dataset.phone || 'Chưa rõ',
+                phone: displayPhone?.value || 'Chưa rõ',
                 score: window.scoreString,
                 timestamp: submittedData.timestamp,
                 totalQuestions: quizData.length
