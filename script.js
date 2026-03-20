@@ -260,6 +260,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalQuestions: quizData.length
             });
 
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            if (scoreDisplay) {
+                scoreDisplay.innerHTML = `Bạn đã trả lời đúng <strong>${window.scoreString}</strong> câu hỏi.`;
+            }
+
             quizForm.classList.add('hidden');
             successMessage.classList.remove('hidden');
 
