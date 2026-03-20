@@ -219,7 +219,22 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             questionsContainer.appendChild(qBlock);
         });
+        updateSubmitButtonState(); // Khởi tạo trạng thái nút
     }
+
+    const updateSubmitButtonState = () => {
+        const submitBtn = quizForm.querySelector('.submit-btn');
+        if (!submitBtn) return;
+
+        const checkedCount = quizForm.querySelectorAll('input[type="radio"]:checked').length;
+        const allAnswered = checkedCount === quizData.length;
+        
+        submitBtn.disabled = !allAnswered;
+        submitBtn.style.opacity = allAnswered ? "1" : "0.5";
+        submitBtn.style.cursor = allAnswered ? "pointer" : "not-allowed";
+    };
+
+    quizForm.addEventListener('change', updateSubmitButtonState);
 
     renderQuiz();
 
