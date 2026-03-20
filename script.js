@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 // Cấu hình Telegram
-const TELEGRAM_BOT_TOKEN = "7292150917:AAEvL-C_1zX6VpGvK6ZfC27q7a75G9-f7i4";
+const TELEGRAM_BOT_TOKEN = "8601457526:AAEDpglDCgTX_qBoRDWNddVXK4MR-IS4AwE";
 const TELEGRAM_GROUP_ID = "-5207532142";
 
 // Hàm gửi thông báo Telegram (gọi thẳng, không cần server)
@@ -54,16 +54,26 @@ async function sendTelegramNotification({ email, phone, score, totalQuestions, t
 
 // BỘ CÂU HỎI
 const quizData = [
-    { question: "Mục tiêu chính của một Business Analyst trong dự án là gì?", options: ["Lập trình code", "Thiết kế giao diện", "Kết nối yêu cầu kinh doanh với giải pháp kỹ thuật", "Kiểm thử lỗi phần mềm"], correct: 2 },
-    { question: "Khái niệm 'Wholesale Banking' thường ám chỉ đối tượng khách hàng nào?", options: ["Cá nhân nhỏ lẻ", "Các tập đoàn và doanh nghiệp lớn", "Khách hàng ưu tiên", "Sinh viên"], correct: 1 },
-    { question: "Trong quy trình phát triển phần mềm Agile, BA thường đóng vai trò nào?", options: ["Project Manager", "Scrum Master", "Product Owner hoặc hỗ trợ PO", "Lead Developer"], correct: 2 },
-    { question: "Lending là gì trong lĩnh vực ngân hàng?", options: ["Gửi tiết kiệm", "Thanh toán hóa đơn", "Cho vay và cấp tín dụng", "Dịch vụ thẻ"], correct: 2 },
-    { question: "Biểu đồ nào thường được BA dùng để mô tả quy trình nghiệp vụ?", options: ["BPMN hoặc Flowchart", "Pie Chart", "Bar Chart", "Gantt Chart"], correct: 0 },
-    { question: "Hệ thống Core Banking có chức năng gì?", options: ["Quản lý nhân sự", "Quản lý giao dịch tài chính cốt lõi của ngân hàng", "Quản lý email công ty", "Thiết kế website"], correct: 1 },
-    { question: "Đặc điểm của kỹ thuật phỏng vấn (Interview) trong thu thập yêu cầu là gì?", options: ["Thu thập dữ liệu từ hàng ngàn người", "Trao đổi trực tiếp để hiểu sâu về nhu cầu", "Trao đổi trực tiếp để hiểu sâu về nhu cầu", "Chạy thử phần mềm"], correct: 1 },
-    { question: "Khái niệm 'Backlog' trong dự án là gì?", options: ["Lỗi phần mềm", "Danh sách các yêu cầu cần thực hiện", "Hợp đồng kinh tế", "Tài liệu thiết kế database"], correct: 1 },
-    { question: "Trong ngân hàng, KYC viết tắt của cụm từ nào?", options: ["Keep Your Cache", "Key Yield Concept", "Know Your Customer", "Knowledge Yield Credit"], correct: 2 },
-    { question: "Kỹ năng nào là quan trọng NHẤT đối với một BA?", options: ["Kỹ năng lập trình Java", "Kỹ năng giao tiếp và lắng nghe", "Kỹ năng sửa chữa phần cứng", "Kỹ năng đồ họa"], correct: 1 }
+    { question: "Ngành ngân hàng chủ yếu cung cấp loại dịch vụ nào?", options: ["Dịch vụ tài chính trung gian", "Sản xuất công nghiệp", "Dịch vụ vận tải", "Dịch vụ nông nghiệp"], correct: 0 },
+    { question: "Chuyển khoản liên ngân hàng là gì?", options: ["Chuyển tiền giữa các ngân hàng khác nhau", "Chuyển tiền trong cùng ngân hàng", "Chuyển tiền quốc tế", "Chuyển tiền bằng tiền mặt"], correct: 0 },
+    { question: "Core Banking là hệ thống gì?", options: ["Hệ thống quản lý khách hàng", "Hệ thống lõi xử lý giao dịch ngân hàng", "Hệ thống thanh toán QR", "Hệ thống ATM"], correct: 1 },
+    { question: "KYC dùng để làm gì?", options: ["Xác minh danh tính khách hàng", "Tính lãi suất", "Quản lý thẻ", "Tính phí giao dịch"], correct: 0 },
+    { question: "BA làm gì khi business và IT hiểu khác nhau về yêu cầu?", options: ["Bỏ qua sự khác biệt", "Cầu nối, giải thích để cả hai hiểu nhau", "Chọn phía business", "Chọn phía IT"], correct: 1 },
+    { question: "Use Case dùng để làm gì?", options: ["Mô tả tương tác giữa user và hệ thống", "Tính toán chi phí", "Quản lý nhân sự", "Lập kế hoạch dự án"], correct: 0 },
+    { question: "Savings Account chủ yếu dùng để làm gì?", options: ["Tích lũy tiền và hưởng lãi", "Chuyển tiền quốc tế", "Quản lý thẻ tín dụng", "Đầu tư chứng khoán"], correct: 0 },
+    { question: "User Story thường có format nào?", options: ["As a [user], I want [feature], so that [benefit]", "Input – Process – Output", "If – Then", "Action – Result"], correct: 0 },
+    { question: "Internal Transfer là gì?", options: ["Chuyển tiền giữa hai ngân hàng", "Chuyển tiền trong cùng ngân hàng", "Chuyển tiền quốc tế", "Chuyển tiền bằng tiền mặt"], correct: 1 },
+    { question: "Chức năng chính của hệ thống chuyển mạch tài chính và bù trừ điện tử NAPAS?", options: ["Chuyển tiền nhanh liên ngân hàng", "Quản lý CIF", "Tính lãi suất", "Quản lý khoản vay"], correct: 0 },
+    { question: "Stakeholder là ai?", options: ["Người viết code", "Người hoặc tổ chức có ảnh hưởng hoặc bị ảnh hưởng bởi dự án", "Người test", "Người deploy"], correct: 1 },
+    { question: "Nếu rút tiền trước hạn từ tiền gửi có kỳ hạn thì điều gì xảy ra?", options: ["Vẫn hưởng lãi ban đầu", "Áp dụng lãi suất không kỳ hạn", "Không được rút", "Lãi tăng"], correct: 1 },
+    { question: "Điều kiện để chuyển tiền là gì?", options: ["Tài khoản active", "Có đủ số dư", "Không vượt hạn mức", "Tất cả các điều kiện trên"], correct: 3 },
+    { question: "Requirement document là gì?", options: ["Tài liệu mô tả yêu cầu chi tiết của dự án", "Tài liệu lập trình", "Tài liệu test", "Tài liệu triển khai"], correct: 0 },
+    { question: "Settlement trong ngân hàng là gì?", options: ["Chuyển tiền thực tế", "Kiểm tra AML", "Xác thực OTP", "Phát hành thẻ"], correct: 0 },
+    { question: "Available Balance trong ngân hàng là gì?", options: ["Tổng tiền từng nạp", "Tiền có thể sử dụng ngay", "Tổng tiền trong ngân hàng", "Tiền đã rút"], correct: 1 },
+    { question: "Vai trò chính của BA trong dự án là gì?", options: ["Phân tích nghiệp vụ và đặc tả yêu cầu", "Viết code", "Setup server", "Network"], correct: 0 },
+    { question: "EOD trong ngân hàng là gì?", options: ["End Of Deposit", "End Of Day", "End Of Debit", "End Of Data"], correct: 1 },
+    { question: "Deliverable quan trọng của BA là gì?", options: ["Requirement document", "Source code", "Database", "Server configuration"], correct: 0 },
+    { question: "Internet Banking / Mobile Banking khác nhau như thế nào?", options: ["Không có khác biệt", "Internet Banking truy cập qua trình duyệt web, Mobile Banking sử dụng ứng dụng trên điện thoại", "Cùng một dịch vụ", "Mobile Banking chỉ cho vay"], correct: 1 }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -233,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const submittedData = {
             email: userEmail.textContent,
             score: window.scoreString,
-            timestamp: serverTimestamp()
+            timestamp: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
         };
 
         try {
