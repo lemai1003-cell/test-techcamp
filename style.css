@@ -358,9 +358,14 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     transition: all 0.2s;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.submit-btn.full-width {
+    width: 100%;
 }
 
 .submit-btn:hover {
