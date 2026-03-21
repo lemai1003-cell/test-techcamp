@@ -97,6 +97,89 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayEmail = document.getElementById('displayEmail');
     const displayPhone = document.getElementById('displayPhone');
 
+    // Timer elements
+    const stickyTimer = document.getElementById('stickyTimer');
+    const timeoutOverlay = document.getElementById('timeoutOverlay');
+    const timeoutResultBtn = document.getElementById('timeoutResultBtn');
+    
+    // Timer Logic
+    const DURATION = 600; // 10 minutes in seconds
+    let timerInterval;
+
+    function handleTimeout() {
+        clearInterval(timerInterval);
+        if (stickyTimer) {
+            stickyTimer.textContent = "00:00";
+            stickyTimer.classList.remove('blink', 'warning');
+        }
+        
+        // Vô hiệu hóa các ô nhập liệu
+        if (displayEmail) displayEmail.disabled = true;
+        if (displayPhone) displayPhone.disabled = true;
+        
+        const radios = quizForm.querySelectorAll('input[type="radio"]');
+        radios.forEach(r => r.disabled = true);
+        
+        const submitBtn = quizForm.querySelector('.submit-btn');
+        if (submitBtn) submitBtn.disabled = true;
+
+        if (timeoutOverlay) timeoutOverlay.classList.remove('hidden');
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+
+        let startTime = localStorage.getItem('quizStartTimeBA');
+        const now = Math.floor(Date.now() / 1000);
+        
+        if (!startTime) {
+            startTime = now;
+            localStorage.setItem('quizStartTimeBA', startTime);
+        }
+
+        function updateDisplay(remaining) {
+            if (!stickyTimer) return;
+            const m = Math.floor(remaining / 60).toString().padStart(2, '0');
+            const s = (remaining % 60).toString().padStart(2, '0');
+            stickyTimer.textContent = `${m}:${s}`;
+
+            if (remaining <= 120 && remaining > 0) { // Dưới 2 phút
+                stickyTimer.classList.add('warning', 'blink');
+            } else {
+                stickyTimer.classList.remove('warning', 'blink');
+            }
+        }
+
+        function tick() {
+            const currentTime = Math.floor(Date.now() / 1000);
+            const elapsed = currentTime - parseInt(startTime);
+            const remaining = DURATION - elapsed;
+
+            if (remaining <= 0) {
+                handleTimeout();
+            } else {
+                updateDisplay(remaining);
+            }
+        }
+
+        tick();
+        timerInterval = setInterval(tick, 1000);
+    }
+    
+    startTimer();
+
+    if (timeoutResultBtn) {
+        timeoutResultBtn.addEventListener('click', () => {
+            if (timeoutOverlay) timeoutOverlay.classList.add('hidden');
+            const requiredInputs = quizForm.querySelectorAll('[required]');
+            requiredInputs.forEach(input => input.removeAttribute('required'));
+            
+            const submitBtn = quizForm.querySelector('.submit-btn');
+            if (submitBtn) submitBtn.disabled = false;
+            quizForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        });
+    }
+
     // Hàm decode token JWT của Google
     function decodeJwtResponse(token) {
         var base64Url = token.split('.')[1];
@@ -294,6 +377,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             quizForm.classList.add('hidden');
             successMessage.classList.remove('hidden');
+            
+            clearInterval(timerInterval);
+            localStorage.removeItem('quizStartTimeBA');
+            if (stickyTimer) stickyTimer.classList.add('hidden');
 
         } catch (error) {
             console.error("Lỗi:", error);
@@ -308,5 +395,16 @@ document.addEventListener('DOMContentLoaded', () => {
         quizForm.reset();
         successMessage.classList.add('hidden');
         quizForm.classList.remove('hidden');
+        
+        if (displayEmail) displayEmail.disabled = false;
+        if (displayPhone) displayPhone.disabled = false;
+        
+        localStorage.removeItem('quizStartTimeBA');
+        if (stickyTimer) {
+            stickyTimer.classList.remove('hidden', 'warning', 'blink');
+        }
+        
+        renderQuiz();
+        startTimer();
     };
 });
