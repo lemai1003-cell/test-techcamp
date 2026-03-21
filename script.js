@@ -400,6 +400,12 @@ document.addEventListener('DOMContentLoaded', () => {
             quizForm.classList.add('hidden');
             successMessage.classList.remove('hidden');
             
+            const headerSubtitle = document.getElementById('headerSubtitle');
+            if (headerSubtitle) headerSubtitle.classList.add('hidden');
+            
+            if (displayEmail) displayEmail.disabled = true;
+            if (displayPhone) displayPhone.disabled = true;
+            
             clearInterval(timerInterval);
             localStorage.removeItem('quizStartTimeBA');
             if (stickyTimer) stickyTimer.classList.add('hidden');
@@ -417,6 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
         quizForm.reset();
         successMessage.classList.add('hidden');
         quizForm.classList.remove('hidden');
+        
+        const headerSubtitle = document.getElementById('headerSubtitle');
+        if (headerSubtitle) headerSubtitle.classList.remove('hidden');
         
         if (displayEmail) displayEmail.disabled = false;
         if (displayPhone) displayPhone.disabled = false;
