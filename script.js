@@ -166,7 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
         timerInterval = setInterval(tick, 1000);
     }
     
-    startTimer();
+    // Timer không chạy mặc định, chỉ chạy khi quiz block hiện lên
+    if (stickyTimer) stickyTimer.classList.add('hidden');
 
     if (timeoutResultBtn) {
         timeoutResultBtn.addEventListener('click', () => {
@@ -214,6 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userEmail) userEmail.textContent = "Vui lòng Đăng nhập Google để xác thực"; 
         
         quizForm.classList.remove('hidden');
+        if (stickyTimer) stickyTimer.classList.remove('hidden');
+        startTimer();
     }
 
     // Callback khi đăng nhập Google thành công
@@ -230,6 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (displayPhone) displayPhone.placeholder = "Vui lòng nhập SĐT";
 
         quizForm.classList.remove('hidden');
+        if (stickyTimer) stickyTimer.classList.remove('hidden');
+        startTimer();
     };
 
     const GOOGLE_CLIENT_ID = "336018277787-0prgo2k750aft6678cdeioqgptic9kq3.apps.googleusercontent.com";

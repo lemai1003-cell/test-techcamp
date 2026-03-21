@@ -425,16 +425,23 @@ body {
 .sticky-timer {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: calc(50% + 340px);
     z-index: 9999;
     background: white;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 10px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    padding: 12px 24px;
     border-radius: 50px;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 26px;
+    font-weight: bold;
     color: var(--text-main);
     transition: all 0.3s ease;
+}
+
+@media (max-width: 960px) {
+    .sticky-timer {
+        left: auto;
+        right: 20px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -445,6 +452,8 @@ body {
         border-radius: 0;
         text-align: center;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 10px 20px;
+        font-size: 24px;
     }
 }
 
