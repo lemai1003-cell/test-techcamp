@@ -233,13 +233,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const checkedCount = quizForm.querySelectorAll('input[type="radio"]:checked').length;
         const allAnswered = checkedCount === quizData.length;
+        const hasPhone = displayPhone && displayPhone.value.trim().length > 0;
+        const canSubmit = allAnswered && hasPhone;
         
-        submitBtn.disabled = !allAnswered;
-        submitBtn.style.opacity = allAnswered ? "1" : "0.5";
-        submitBtn.style.cursor = allAnswered ? "pointer" : "not-allowed";
+        submitBtn.disabled = !canSubmit;
+        submitBtn.style.opacity = canSubmit ? "1" : "0.5";
+        submitBtn.style.cursor = canSubmit ? "pointer" : "not-allowed";
     };
 
     quizForm.addEventListener('change', updateSubmitButtonState);
+
+    // Lắng nghe thay đổi SĐT để cập nhật trạng thái nút
+    if (displayPhone) {
+        displayPhone.addEventListener('input', updateSubmitButtonState);
+    }
 
     renderQuiz();
 
