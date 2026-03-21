@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizForm = document.getElementById('quizForm');
     const questionsContainer = document.getElementById('questionsContainer');
     const successMessage = document.getElementById('successMessage');
+    const resetBtn = document.getElementById('resetBtn');
     
     // Các phần mới hiển thị data
     const displayEmail = document.getElementById('displayEmail');
@@ -417,6 +418,13 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.innerHTML = 'Nộp bài';
         }
     });
+
+    // Cấu hình nút Làm bài khác
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            window.location.href = "https://test-techcamp.vercel.app/";
+        });
+    }
 
     // Reset test
     window.resetQuiz = () => {
