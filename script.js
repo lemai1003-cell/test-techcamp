@@ -23,7 +23,7 @@ const TELEGRAM_BOT_TOKEN = "8601457526:AAEDpglDCgTX_qBoRDWNddVXK4MR-IS4AwE";
 const TELEGRAM_GROUP_ID = "-5207532142";
 
 // Hàm gửi thông báo Telegram (gọi thẳng, không cần server)
-async function sendTelegramNotification({ email, phone, score, totalQuestions, timestamp }) {
+async function sendTelegramNotification({ email, phone, score, timeSpent, totalQuestions, timestamp }) {
     try {
         // Lấy tổng số submit từ Firebase
         const dbRef = ref(database, 'quiz_results');
@@ -36,6 +36,7 @@ async function sendTelegramNotification({ email, phone, score, totalQuestions, t
 📧 Email: ${email}
 📞 SĐT: ${phone || 'Chưa nhập'}
 📊 Đáp án: ${score}
+⏱️ Thời gian: ${timeSpent || 'Không rõ'}
 👥 Tổng submit: ${totalSubmits}`;
 
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
@@ -356,9 +357,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.scoreString = `${score}/${quizData.length}`;
 
+        let timeSpentString = "00:00";
+        const startTimeStr = localStorage.getItem('quizStartTimeBA');
+        if (startTimeStr) {
+            const start = parseInt(startTimeStr);
+            const endTime = Math.floor(Date.now() / 1000);
+            let timeSpentSeconds = endTime - start;
+            if (timeSpentSeconds > DURATION || timeSpentSeconds < 0 || isNaN(timeSpentSeconds)) {
+                timeSpentSeconds = DURATION;
+            }
+            const m = Math.floor(timeSpentSeconds / 60).toString().padStart(2, '0');
+            const s = (timeSpentSeconds % 60).toString().padStart(2, '0');
+            timeSpentString = `${m}:${s}`;
+        }
+
         const submittedData = {
             email: userEmail.textContent,
             score: window.scoreString,
+            timeSpent: timeSpentString,
             timestamp: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })
         };
 
@@ -371,13 +387,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: userEmail.textContent,
                 phone: displayPhone?.value || 'Chưa rõ',
                 score: window.scoreString,
+                timeSpent: timeSpentString,
                 timestamp: submittedData.timestamp,
                 totalQuestions: quizData.length
             });
 
             const scoreDisplay = document.getElementById('scoreDisplay');
             if (scoreDisplay) {
-                scoreDisplay.innerHTML = `Bạn đã trả lời đúng <strong>${window.scoreString}</strong> câu hỏi.`;
+                scoreDisplay.innerHTML = `Bạn đã trả lời đúng <strong>${window.scoreString}</strong> câu hỏi.<br/>⏱️ Thời gian làm bài: <strong>${timeSpentString}</strong>.`;
             }
 
             quizForm.classList.add('hidden');
